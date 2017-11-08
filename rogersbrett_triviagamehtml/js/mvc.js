@@ -11,25 +11,30 @@ class Controller {
     this.index = 0
     this.pTurn = 0
 
+    // Fires upon cliking the submit button for questions
     document.querySelector('#submitBtn').addEventListener('click', this.captureForm.bind(this))
-    document.addEventListener('apiGet', this.startIt.bind(this))
+    // Fires after the api call was successful
+    document.addEventListener('apiGet', this.showQuestion.bind(this))
     document.addEventListener('first', this.getChoice.bind(this))
   }
   // capture the data from the users input
   captureForm(e) {
     e.preventDefault()
+    // capture all the values from the inputs and populate the data object
     this.playerData.oName = this.oName.value
     this.playerData.tName = this.tName.value
     this.playerData.category = this.category.value
     this.playerData.difficulty = this.difficulty.value
     
+    // Fire the event upon grabbing all the data
     let evt = new Event('dataGet')
     evt.data = this.playerData
     evt.index = this.index
     evt.turn = this.pTurn
     document.dispatchEvent(evt)
   }
-  startIt(e) {
+  // push the question to show in the view
+  showQuestion(e) {
     let evt = new Event('qShow')
     evt.questions = e.questions
     evt.index = e.index
@@ -37,6 +42,7 @@ class Controller {
     evt.turn = e.turn
     document.dispatchEvent(evt)
   }
+  
   getChoice(e) {
     e.preventDefault()
     let data = e
@@ -68,11 +74,11 @@ class Controller {
       if (cOrI) {
         // determines who's turn it is to answer
         if (data.turn == 0) {
-          data.players.playerOne.score++
-          console.log('Player One Score', data.players.playerOne.score)
+          data.players.playerOne.numCorrect++
+          console.log('Player One Score', data.players.playerOne.numCorrect)
           data.turn = 1
         } else {
-          data.players.playerTwo.score++
+          data.players.playerTwo.numCorrect++
           data.turn = 0
         }
 
@@ -128,11 +134,11 @@ class Model {
         let playerInfo = {
           playerOne: {
             name: setupInfo.oName,
-            score: 0
+            numCorrect: 0
           },
           playerTwo: {
             name: setupInfo.tName,
-            score: 0
+            numCorrect: 0
           }
         }
         // Event that fires once all the information is gathered
@@ -155,47 +161,56 @@ class View {
     // document.addEventListener('correctAns', this.nextQuestion.bind(this))
   }
   showQuestion(e) {
+    // variables to shorten the use of it later and to keep the scope of e
     let question = e.questions
     let i = e.index
     let players = e.players
+    // Tests whether the question is a true/false or not
     if (question[i].type == 'boolean') {
-      let htmlString = `<h1>${question[i].question}</h1>
-                      <label>
-                        ${question[i].answer_array[0]}
-                        <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
-                      </label>
-                      <label>
-                        ${question[i].answer_array[1]}
-                        <input type="radio" name="answerSelect" id="answer2" value="${question[i].answer_array[1]}">
-                      </label>
+      let htmlString = `<p>Q: ${i+1}</p>
+                      <h1>${question[i].question}</h1>
+                      <div class="answerChoices">
+                        <div>
+                          <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
+                          <label for="answer1">${question[i].answer_array[0]}</label>
+                        </div>
+                        <div>
+                          <input type="radio" name="answerSelect" id="answer2" value="${question[i].answer_array[1]}">
+                          <label for="answer2">${question[i].answer_array[1]}</label>
+                        </div>
+                      </div>
                       <input type="button" id="confirmBtn" value="Confirm">`
       document.querySelector('#main').innerHTML = htmlString
-      
+    // If the question if multiple choice
     } else {
-      let htmlString = `<h1>${question[i].question}</h1>
-                      <label>
-                        ${question[i].answer_array[0]}
-                        <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
-                      </label>
-                      <label>
-                        ${question[i].answer_array[1]}
-                        <input type="radio" name="answerSelect" id="answer2" value="${question[i].answer_array[1]}">
-                      </label>
-                      <label>
-                        ${question[i].answer_array[2]}
-                        <input type="radio" name="answerSelect" id="answer3" value="${question[i].answer_array[2]}">
-                      </label>
-                      <label>
-                        ${question[i].answer_array[3]}
-                        <input type="radio" name="answerSelect" id="answer4" value="${question[i].answer_array[3]}">
-                      </label>
+      let htmlString = `<p>Q: ${i+1}</p>
+                    <h1>${question[i].question}</h1>
+                    <div class="answerChoices">
+                      <div>
+                          <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
+                          <label for="answer1">${question[i].answer_array[0]}</label>
+                      </div>
+                      <div>
+                          <input type="radio" name="answerSelect" id="answer2" value="${question[i].answer_array[1]}">
+                          <label for="answer2">${question[i].answer_array[1]}</label>
+                      </div>
+                      <div>
+                          <input type="radio" name="answerSelect" id="answer3" value="${question[i].answer_array[2]}">
+                          <label for="answer3">${question[i].answer_array[2]}</label>
+                     </div>
+                     <div>
+                          <input type="radio" name="answerSelect" id="answer4" value="${question[i].answer_array[3]}">
+                          <label for="answer4">${question[i].answer_array[3]}</label>
+                     </div>
+                    </div>
                       <input type="button" id="confirmBtn" value="Confirm">`
       document.querySelector('#main').innerHTML = htmlString
     }
-    document.querySelector('#scores').innerHTML = `<h3>${players.playerOne.name}</h3>
-                                                  <p>Score: ${players.playerOne.score}</p>
-                                                  <h3>${players.playerTwo.name}</h3>
-                                                  <p>Score: ${players.playerTwo.score}</p>`
+    // Display the current amount of correct answers
+    // document.querySelector('#scores').innerHTML = `<h3>${players.playerOne.name}</h3>
+    //                                               <p>Correct: ${players.playerOne.numCorrect}</p>
+    //                                               <h3>${players.playerTwo.name}</h3>
+    //                                               <p>Correct: ${players.playerTwo.numCorrect}</p>`
     if (e.turn == 0) {
       console.log(`${players.playerOne.name}'s Turn!`)
     } else {

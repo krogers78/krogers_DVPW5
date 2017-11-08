@@ -1,0 +1,91 @@
+body {
+  background: url('/assets/congruent_pentagon.png') repeat 0 0;
+  animation: 50s linear 0s normal none infinite animate;
+  padding: 2rem;
+}
+input[type=radio] {
+  -webkit-appearance: none;
+}
+/* BY ID */
+#pOneScores, #pTwoScores {
+  // display: none;
+  width: 80%;
+  p {
+    border: 1px solid black;
+    padding: 1rem 0;
+    text-align: center;
+    border-radius: 0.25rem;
+  }
+}
+#pTwoScores {
+  p {
+    margin: auto 0 auto auto;
+  }
+  
+}
+#main {
+  width: 100%;
+  padding: 4rem;
+  border: 1px solid red;
+  
+  form {
+    padding: 2rem;
+  }
+  h1 {
+    font-size: 2rem;
+    text-align: center;
+    padding: 3rem 0;
+  }
+  p {
+    padding: 1rem 0;
+  }
+}
+/* CLASSES */
+.answerChoices {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  // flex-flow: column;
+  // flex-flow: row;
+  div {
+    width: 100%;
+  }
+  input[type=radio] + label {
+    background-color: #e7e7e7;
+    // width: 100%;
+    display: inline-block;
+    width: 95%;
+    text-align: center;
+    height: 2.5rem;
+    padding-top: 0.75rem;
+  }
+  input[type=radio]:checked + label {
+    background: green;
+  }
+}
+.wrapper {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+.tenk { width: 100%; }
+.eightk { width: 90%; }
+.sevenk { width: 80%; }
+.sixk { width: 70%; }
+.fivek { width: 60%; }
+.fourk { width: 50%; }
+.threek { width: 40%; }
+.twok { width: 30%; }
+.onek { width: 20%; }
+.pointfive { width: 15%; }
+ /* KEYFRAMES  */
+@keyframes animate {
+  0% { background-position: 0 0; }
+	25% { background-position: 0 500px; }  
+  50% { background-position: 500px 0; }
+  75% { background-position: 0 -500px; }
+	100% { background-position: -500 0; }
+  
+}
+
