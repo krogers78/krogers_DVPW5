@@ -134,11 +134,13 @@ class Model {
         let playerInfo = {
           playerOne: {
             name: setupInfo.oName,
-            numCorrect: 0
+            numCorrect: 0,
+            score: 0
           },
           playerTwo: {
             name: setupInfo.tName,
-            numCorrect: 0
+            numCorrect: 0,
+            score: 0
           }
         }
         // Event that fires once all the information is gathered
@@ -205,6 +207,22 @@ class View {
                     </div>
                       <input type="button" id="confirmBtn" value="Confirm">`
       document.querySelector('#main').innerHTML = htmlString
+    }
+    if (players.playerOne.numCorrect == 1) {
+      players.playerOne.score = 500
+      document.querySelector('#pOneScores .pointfive').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 2) {
+      players.playerOne.score = 1000
+      document.querySelector('#pOneScores .onek').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 3) {
+      players.playerOne.score = 2000
+      document.querySelector('#pOneScores .twok').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 4) {
+      players.playerOne.score = 3000
+      document.querySelector('#pOneScores .threek').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 5) {
+      players.playerOne.score = 4000
+      document.querySelector('#pOneScores .fourk').style.background = 'red'
     }
     // Display the current amount of correct answers
     // document.querySelector('#scores').innerHTML = `<h3>${players.playerOne.name}</h3>
