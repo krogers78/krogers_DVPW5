@@ -208,21 +208,90 @@ class View {
                       <input type="button" id="confirmBtn" value="Confirm">`
       document.querySelector('#main').innerHTML = htmlString
     }
+
+    // KEEP TRACK OF PLAYER ONE SCORE AND DISPLAY
     if (players.playerOne.numCorrect == 1) {
       players.playerOne.score = 500
       document.querySelector('#pOneScores .pointfive').style.background = 'red'
+      document.querySelector('#pOneScores .pointfive').style.visibility = 'visible'
     } else if (players.playerOne.numCorrect == 2) {
       players.playerOne.score = 1000
+      document.querySelector('#pOneScores .onek').style.visibility = 'visible'
       document.querySelector('#pOneScores .onek').style.background = 'red'
     } else if (players.playerOne.numCorrect == 3) {
       players.playerOne.score = 2000
+      document.querySelector('#pOneScores .twok').style.visibility = 'visible'      
       document.querySelector('#pOneScores .twok').style.background = 'red'
     } else if (players.playerOne.numCorrect == 4) {
       players.playerOne.score = 3000
+      document.querySelector('#pOneScores .threek').style.visibility = 'visible'            
       document.querySelector('#pOneScores .threek').style.background = 'red'
     } else if (players.playerOne.numCorrect == 5) {
       players.playerOne.score = 4000
+      document.querySelector('#pOneScores .fourk').style.visibility = 'visible'            
       document.querySelector('#pOneScores .fourk').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 6) {
+      players.playerOne.score = 5000
+      document.querySelector('#pOneScores .fivek').style.visibility = 'visible'            
+      document.querySelector('#pOneScores .fivek').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 7) {
+      players.playerOne.score = 6000
+      document.querySelector('#pOneScores .sixk').style.visibility = 'visible'            
+      document.querySelector('#pOneScores .sixk').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 8) {
+      players.playerOne.score = 7000
+      document.querySelector('#pOneScores .sevenk').style.visibility = 'visible'
+      document.querySelector('#pOneScores .sevenk').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 9) {
+      players.playerOne.score = 8000
+      document.querySelector('#pOneScores .eightk').style.visibility = 'visible'
+      document.querySelector('#pOneScores .eightk').style.background = 'red'
+    } else if (players.playerOne.numCorrect == 10) {
+      players.playerOne.score = 10000
+      document.querySelector('#pOneScores .tenk').style.visibility = 'visible'
+      document.querySelector('#pOneScores .tenk').style.background = 'red'
+    }
+    // KEEP TRACK OF PLAYER TWO SCORE AND DISPLAY
+    if (players.playerTwo.numCorrect == 1) {
+      players.playerTwo.score = 500
+      document.querySelector('#pTwoScores .pointfive').style.background = 'red'
+      document.querySelector('#pTwoScores .pointfive').style.visibility = 'visible'
+    } else if (players.playerTwo.numCorrect == 2) {
+      players.playerTwo.score = 1000
+      document.querySelector('#pTwoScores .onek').style.visibility = 'visible'      
+      document.querySelector('#pTwoScores .onek').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 3) {
+      players.playerTwo.score = 2000
+      document.querySelector('#pTwoScores .twok').style.visibility = 'visible'      
+      document.querySelector('#pTwoScores .twok').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 4) {
+      players.playerTwo.score = 3000
+      document.querySelector('#pTwoScores .threek').style.visibility = 'visible'      
+      document.querySelector('#pTwoScores .threek').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 5) {
+      players.playerTwo.score = 4000
+      document.querySelector('#pTwoScores .fourk').style.visibility = 'visible'      
+      document.querySelector('#pTwoScores .fourk').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 6) {
+      players.playerTwo.score = 5000
+      document.querySelector('#pTwoScores .fivek').style.visibility = 'visible'      
+      document.querySelector('#pTwoScores .fivek').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 7) {
+      players.playerTwo.score = 6000
+      document.querySelector('#pTwoScores .sixk').style.visibility = 'visible'      
+      document.querySelector('#pTwoScores .sixk').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 8) {
+      players.playerTwo.score = 7000
+      document.querySelector('#pTwoScores .sevenk').style.visibility = 'visible'
+      document.querySelector('#pTwoScores .sevenk').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 9) {
+      players.playerTwo.score = 8000
+      document.querySelector('#pTwoScores .eightk').style.visibility = 'visible'
+      document.querySelector('#pTwoScores .eightk').style.background = 'red'
+    } else if (players.playerTwo.numCorrect == 10) {
+      players.playerTwo.score = 10000
+      document.querySelector('#pTwoScores .tenk').style.visibility = 'visible'
+      document.querySelector('#pTwoScores .tenk').style.background = 'red'
     }
     // Display the current amount of correct answers
     // document.querySelector('#scores').innerHTML = `<h3>${players.playerOne.name}</h3>

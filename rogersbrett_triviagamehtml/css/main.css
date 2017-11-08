@@ -1,7 +1,13 @@
+/* Import font */
+@font-face {
+  font-family: 'Bangla MN';
+  src: url("/fonts/Bangla MN.ttf"); }
+
 body {
   background: url("/assets/congruent_pentagon.png") repeat 0 0;
   animation: 50s linear 0s normal none infinite back_animate;
-  padding: 2rem; }
+  padding: 2rem;
+  font-family: 'Bangla MN'; }
 
 input[type=radio] {
   -webkit-appearance: none; }
@@ -20,9 +26,8 @@ input[type=radio] {
 
 #main {
   width: 100%;
-  padding: 4rem;
   border: 1px solid red;
-  margin: 1rem; }
+  margin: 5rem; }
   #main form {
     padding: 2rem; }
   #main h1 {
@@ -31,6 +36,13 @@ input[type=radio] {
     padding: 3rem 0; }
   #main p {
     padding: 1rem 0; }
+  #main label {
+    font-size: 1.2rem; }
+  #main input[type=text], #main select {
+    display: block;
+    height: 1.5rem;
+    width: 100%;
+    margin: 0.5rem 0; }
 
 /* CLASSES */
 .answerChoices {
@@ -56,34 +68,44 @@ input[type=radio] {
   justify-content: center; }
 
 .tenk {
-  width: 100%; }
+  width: 100%;
+  visibility: hidden; }
 
 .eightk {
-  width: 90%; }
+  width: 90%;
+  visibility: hidden; }
 
 .sevenk {
-  width: 80%; }
+  width: 80%;
+  visibility: hidden; }
 
 .sixk {
-  width: 70%; }
+  width: 70%;
+  visibility: hidden; }
 
 .fivek {
-  width: 60%; }
+  width: 60%;
+  visibility: hidden; }
 
 .fourk {
-  width: 50%; }
+  width: 50%;
+  visibility: hidden; }
 
 .threek {
-  width: 40%; }
+  width: 40%;
+  visibility: hidden; }
 
 .twok {
-  width: 30%; }
+  width: 30%;
+  visibility: hidden; }
 
 .onek {
-  width: 20%; }
+  width: 20%;
+  visibility: hidden; }
 
 .pointfive {
-  width: 15%; }
+  width: 15%;
+  visibility: hidden; }
 
 /* KEYFRAMES  */
 @keyframes back_animate {

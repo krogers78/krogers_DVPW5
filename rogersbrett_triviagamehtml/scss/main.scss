@@ -1,14 +1,21 @@
+/* Import font */
+@font-face {
+  font-family: 'Bangla MN';
+  src: url('/fonts/Bangla MN.ttf');
+}
+
 body {
   background: url('/assets/congruent_pentagon.png') repeat 0 0;
   animation: 50s linear 0s normal none infinite back_animate;
   padding: 2rem;
+  font-family: 'Bangla MN';
 }
 input[type=radio] {
   -webkit-appearance: none;
 }
 /* BY ID */
 #pOneScores, #pTwoScores {
-  // display: none;
+  // visibility: hidden;
   width: 80%;
   p {
     border: 1px solid black;
@@ -25,9 +32,9 @@ input[type=radio] {
 }
 #main {
   width: 100%;
-  padding: 4rem;
+  // padding: 4rem;
   border: 1px solid red;
-  margin: 1rem;  
+  margin: 5rem;  
   form {
     padding: 2rem;
   }
@@ -38,6 +45,15 @@ input[type=radio] {
   }
   p {
     padding: 1rem 0;
+  }
+  label {
+    font-size: 1.2rem;
+  }
+  input[type=text], select {
+    display: block;
+    height: 1.5rem;
+    width: 100%;
+    margin: 0.5rem 0;
   }
 }
 /* CLASSES */
@@ -69,16 +85,16 @@ input[type=radio] {
   display: flex;
   justify-content: center;
 }
-.tenk { width: 100%; }
-.eightk { width: 90%; }
-.sevenk { width: 80%; }
-.sixk { width: 70%; }
-.fivek { width: 60%; }
-.fourk { width: 50%; }
-.threek { width: 40%; }
-.twok { width: 30%; }
-.onek { width: 20%; }
-.pointfive { width: 15%; }
+.tenk { width: 100%; visibility: hidden; }
+.eightk { width: 90%; visibility: hidden;  }
+.sevenk { width: 80%; visibility: hidden;  }
+.sixk { width: 70%; visibility: hidden;  }
+.fivek { width: 60%; visibility: hidden;  }
+.fourk { width: 50%; visibility: hidden;  }
+.threek { width: 40%; visibility: hidden;  }
+.twok { width: 30%; visibility: hidden;  }
+.onek { width: 20%; visibility: hidden;  }
+.pointfive { width: 15%; visibility: hidden;  }
  /* KEYFRAMES  */
 @keyframes back_animate {
   0% { background-position: 0 0; }
