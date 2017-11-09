@@ -145,6 +145,10 @@ input[type=radio] {
 .twok { width: 30%; }
 .onek { width: 20%; }
 .pointfive { width: 15%; }
+
+.nameAnimate {
+  animation: 0.5s linear 0s normal none name;  
+}
  /* KEYFRAMES  */
 @keyframes back_animate {
   0% { background-position: 0 0; }
@@ -152,6 +156,10 @@ input[type=radio] {
   50% { background-position: 500px 0; }
   75% { background-position: 0 -500px; }
 	100% { background-position: -500 0; }
-  
+}
+@keyframes name {
+  0% { transform: rotate(-45deg); }
+  50% { transform: rotate(45deg); }
+  100% { transform: rotate(0deg); }
 }
 

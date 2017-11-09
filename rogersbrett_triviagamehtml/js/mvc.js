@@ -518,15 +518,23 @@ class View {
       document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
                                                   <p id="playAgain"><a href="/">Play Again</a></p>`
     }
+    // store html elements in variables
+    let oneName = document.querySelector('#oneName')
+    let twoName = document.querySelector('#twoName')
+    // Set the names of the players on the page
+    oneName.innerHTML = players.playerOne.name
+    document.querySelector('#twoName').innerHTML = players.playerTwo.name
+
     // Let the players know who's turn it is
     if (e.turn == 0) {
       console.log(`${players.playerOne.name}'s Turn!`) 
+      oneName.className = 'nameAnimate'
+      oneName.addEventListener('animationend', () => oneName.classList.remove('nameAnimate'))
     } else {
-      console.log(`${players.playerTwo.name}'s Turn!`)      
+      console.log(`${players.playerTwo.name}'s Turn!`)
+      document.querySelector('#oneName').className = 'nameAnimate'
+      document.querySelector('#oneName').addEventListener('animationend', () => document.querySelector('#oneName').classList.remove('nameAnimate'))
     }
-    // Set the names of the players on the page
-    document.querySelector('#oneName').innerHTML = players.playerOne.name
-    document.querySelector('#twoName').innerHTML = players.playerTwo.name
 
     // let timeLeft = 30
 
