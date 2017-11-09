@@ -16,9 +16,37 @@ class Controller {
     // Fires after the api call was successful
     document.addEventListener('apiGet', this.showQuestion.bind(this))
     document.addEventListener('first', this.getChoice.bind(this))
+    document.addEventListener('timerCheck', this.timerTest.bind(this))
+  }
+  timerTest(e) {
+    console.log(e)
+    let timeLeft = 30
+
+    let x = setInterval(() => {
+      document.querySelector('#timer').innerHTML = timeLeft
+      console.log(timeLeft)
+      timeLeft--
+      if (timeLeft < 0) {
+        clearInterval(x)
+        document.querySelector('#timer').innerHTML = 'TIME\'S UP'
+        console.log('TIME\'S UP!')
+      }
+    }, 1000)
+
+    document.querySelector('#confirmBtn').addEventListener('click', () => {
+      // e.preventDefault()
+      let evt = new Event('first')
+      evt.questions = e.questions
+      evt.index = e.index
+      evt.players = e.players
+      evt.turn = e.turn
+      document.dispatchEvent(evt)
+    })
   }
   // capture the data from the users input
   captureForm(e) {
+
+    console.log('CAPTURE FORM', e)
     e.preventDefault()
     // capture all the values from the inputs and populate the data object
     this.playerData.oName = this.oName.value
@@ -180,6 +208,7 @@ class View {
     if (question[i].type == 'boolean') {
       let htmlString = `<p>Q: ${i+1}</p>
                       <h1>${question[i].question}</h1>
+                      <h2 id="timer"></h2>                      
                       <div class="answerChoices">
                         <div>
                           <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
@@ -196,6 +225,7 @@ class View {
     } else {
       let htmlString = `<p>Q: ${i+1}</p>
                     <h1>${question[i].question}</h1>
+                    <h2 id="timer"></h2>
                     <div class="answerChoices">
                       <div>
                           <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
@@ -497,26 +527,24 @@ class View {
     document.querySelector('#oneName').innerHTML = players.playerOne.name
     document.querySelector('#twoName').innerHTML = players.playerTwo.name
 
-    let timeLeft = 10
+    // let timeLeft = 30
 
-    let x = setInterval(() => {
-      console.log(timeLeft)
-      timeLeft--
-      if(timeLeft < 0) {
-        clearInterval(x)
-        console.log('TIME\'S UP!')
-      }
-    }, 1000 )
-
-    if (timeLeft != 0) {
-      document.querySelector('#confirmBtn').addEventListener('click', () => console.log('test'))
-    }
-
-    let evt = new Event('first')
+    // let x = setInterval(() => {
+    //   document.querySelector('#timer').innerHTML = timeLeft
+    //   console.log(timeLeft)
+    //   timeLeft--
+    //   if(timeLeft < 0) {
+    //     clearInterval(x)
+    //     document.querySelector('#timer').innerHTML = 'TIME\'S UP'        
+    //     console.log('TIME\'S UP!')
+    //   }
+    // }, 1000 )
+    
+    let evt = new Event('timerCheck')
     evt.questions = e.questions
     evt.index = i
     evt.players = players
     evt.turn = e.turn
-    // document.dispatchEvent(evt)
+    document.dispatchEvent(evt)
   }
 }
