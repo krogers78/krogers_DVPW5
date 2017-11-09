@@ -484,8 +484,8 @@ class View {
           duration: 1000
         })
       }
-      document.querySelector('#main').innerHTML = `${players.playerOne.name} wins!
-                                                  <p><a href="/">Play Again</a></p>`
+      document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
+                                                  <p id="playAgain"><a href="/">Play Again</a></p>`
     }
     // Let the players know who's turn it is
     if (e.turn == 0) {
@@ -497,11 +497,26 @@ class View {
     document.querySelector('#oneName').innerHTML = players.playerOne.name
     document.querySelector('#twoName').innerHTML = players.playerTwo.name
 
+    let timeLeft = 10
+
+    let x = setInterval(() => {
+      console.log(timeLeft)
+      timeLeft--
+      if(timeLeft < 0) {
+        clearInterval(x)
+        console.log('TIME\'S UP!')
+      }
+    }, 1000 )
+
+    if (timeLeft != 0) {
+      document.querySelector('#confirmBtn').addEventListener('click', () => console.log('test'))
+    }
+
     let evt = new Event('first')
     evt.questions = e.questions
     evt.index = i
     evt.players = players
     evt.turn = e.turn
-    document.dispatchEvent(evt)
+    // document.dispatchEvent(evt)
   }
 }
