@@ -24,7 +24,7 @@ class Controller {
 
     let x = setInterval(() => {
       document.querySelector('#timer').innerHTML = timeLeft
-      console.log(timeLeft)
+      // console.log(timeLeft)
       timeLeft--
       if (timeLeft < 0) {
         clearInterval(x)
@@ -35,6 +35,7 @@ class Controller {
 
     document.querySelector('#confirmBtn').addEventListener('click', () => {
       // e.preventDefault()
+      clearInterval(x)
       let evt = new Event('first')
       evt.questions = e.questions
       evt.index = e.index
