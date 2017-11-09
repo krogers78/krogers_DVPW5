@@ -15,7 +15,7 @@ class Controller {
     document.querySelector('#submitBtn').addEventListener('click', this.captureForm.bind(this))
     // Fires after the api call was successful
     document.addEventListener('apiGet', this.showQuestion.bind(this))
-    document.addEventListener('first', this.getChoice.bind(this))
+    document.addEventListener('confirmClicked', this.getChoice.bind(this))
     document.addEventListener('timerCheck', this.timerTest.bind(this))
   }
   timerTest(e) {
@@ -24,19 +24,17 @@ class Controller {
 
     let x = setInterval(() => {
       document.querySelector('#timer').innerHTML = timeLeft
-      // console.log(timeLeft)
       timeLeft--
       if (timeLeft < 0) {
         clearInterval(x)
         document.querySelector('#timer').innerHTML = 'TIME\'S UP'
-        console.log('TIME\'S UP!')
+        // dispatch event to game logic
       }
     }, 1000)
 
     document.querySelector('#confirmBtn').addEventListener('click', () => {
-      // e.preventDefault()
       clearInterval(x)
-      let evt = new Event('first')
+      let evt = new Event('confirmClicked')
       evt.questions = e.questions
       evt.index = e.index
       evt.players = e.players
@@ -77,7 +75,7 @@ class Controller {
     let data = e
     let correct = e.questions[e.index].correct_answer
     
-    document.querySelector('#confirmBtn').addEventListener('click', e => {
+    // document.querySelector('#confirmBtn').addEventListener('click', e => {
       let cOrI = true;
       if (data.questions[data.index].type == 'boolean') {
         if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
@@ -129,7 +127,7 @@ class Controller {
       evt.players = data.players
       evt.turn = data.turn
       document.dispatchEvent(evt)
-    })
+    // })
   }
 }
 class Model {
@@ -208,8 +206,11 @@ class View {
     // Tests whether the question is a true/false or not
     if (question[i].type == 'boolean') {
       let htmlString = `<p>Q: ${i+1}</p>
-                      <h1>${question[i].question}</h1>
+                      <div id="outerProgress">
+                        <div id="innerProgress"></div>
+                      </div>
                       <h2 id="timer"></h2>                      
+                      <h1>${question[i].question}</h1>
                       <div class="answerChoices">
                         <div>
                           <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
@@ -225,8 +226,11 @@ class View {
     // If the question if multiple choice
     } else {
       let htmlString = `<p>Q: ${i+1}</p>
-                    <h1>${question[i].question}</h1>
+                    <div id="outerProgress">
+                      <div id="innerProgress"></div>
+                    </div>
                     <h2 id="timer"></h2>
+                    <h1>${question[i].question}</h1>
                     <div class="answerChoices">
                       <div>
                           <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
@@ -523,7 +527,7 @@ class View {
     let twoName = document.querySelector('#twoName')
     // Set the names of the players on the page
     oneName.innerHTML = players.playerOne.name
-    document.querySelector('#twoName').innerHTML = players.playerTwo.name
+    twoName.innerHTML = players.playerTwo.name
 
     // Let the players know who's turn it is
     if (e.turn == 0) {
@@ -532,22 +536,9 @@ class View {
       oneName.addEventListener('animationend', () => oneName.classList.remove('nameAnimate'))
     } else {
       console.log(`${players.playerTwo.name}'s Turn!`)
-      document.querySelector('#oneName').className = 'nameAnimate'
-      document.querySelector('#oneName').addEventListener('animationend', () => document.querySelector('#oneName').classList.remove('nameAnimate'))
+      twoName.className = 'nameAnimate'
+      twoName.addEventListener('animationend', () => twoName.classList.remove('nameAnimate'))
     }
-
-    // let timeLeft = 30
-
-    // let x = setInterval(() => {
-    //   document.querySelector('#timer').innerHTML = timeLeft
-    //   console.log(timeLeft)
-    //   timeLeft--
-    //   if(timeLeft < 0) {
-    //     clearInterval(x)
-    //     document.querySelector('#timer').innerHTML = 'TIME\'S UP'        
-    //     console.log('TIME\'S UP!')
-    //   }
-    // }, 1000 )
     
     let evt = new Event('timerCheck')
     evt.questions = e.questions
