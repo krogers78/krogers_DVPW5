@@ -1,14 +1,11 @@
 /* Import font */
-@font-face {
-  font-family: 'Bangla MN';
-  src: url("/fonts/Bangla MN.ttf"); }
-
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
 body {
   background: url("/assets/img/congruent_pentagon.png") repeat 0 0;
   animation: 75s linear 0s normal none infinite back_animate;
   animation-timing-function: ease-in-out;
   padding: 2rem;
-  font-family: 'Bangla MN'; }
+  font-family: 'Montserrat', sans-serif; }
 
 input[type=radio] {
   -webkit-appearance: none; }
