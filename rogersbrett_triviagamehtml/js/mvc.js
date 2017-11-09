@@ -190,7 +190,7 @@ class View {
                           <label for="answer2">${question[i].answer_array[1]}</label>
                         </div>
                       </div>
-                      <input type="button" id="confirmBtn" value="Confirm">`
+                      <button type="button" id="confirmBtn">Confirm</button>`
       document.querySelector('#main').innerHTML = htmlString
     // If the question if multiple choice
     } else {
@@ -214,9 +214,10 @@ class View {
                           <label for="answer4">${question[i].answer_array[3]}</label>
                      </div>
                     </div>
-                      <input type="button" id="confirmBtn" value="Confirm">`
+                      <button type="button" id="confirmBtn">Confirm</button>`
       document.querySelector('#main').innerHTML = htmlString
     }
+
 
     // KEEP TRACK OF PLAYER ONE SCORE AND DISPLAY
     if (players.playerOne.numCorrect == 1) {
@@ -359,6 +360,8 @@ class View {
           duration: 1000
         })
       }
+      document.querySelector('#main').innerHTML = `${players.playerOne.name} wins!
+                                                  <p><a href="/">Play Again</a></p>`
     }
     // KEEP TRACK OF PLAYER TWO SCORE AND DISPLAY
     if (players.playerTwo.numCorrect == 1) {
@@ -501,15 +504,19 @@ class View {
           duration: 1000
         })
       }
+      document.querySelector('#main').innerHTML = `${players.playerOne.name} wins!
+                                                  <p><a href="/">Play Again</a></p>`
     }
     if (e.turn == 0) {
-      console.log(`${players.playerOne.name}'s Turn!`)
+      console.log(`${players.playerOne.name}'s Turn!`) 
     } else {
       console.log(`${players.playerTwo.name}'s Turn!`)      
     }
     document.querySelector('#oneName').innerHTML = players.playerOne.name
     document.querySelector('#twoName').innerHTML = players.playerTwo.name
 
+    // document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
+    //                                               <p id="playAgain"><a href="/" >Play Again</a></p>`
     let evt = new Event('first')
     evt.questions = e.questions
     evt.index = i

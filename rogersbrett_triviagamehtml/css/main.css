@@ -24,21 +24,23 @@ input[type=radio] {
   #pOneScores h3, #pTwoScores h3 {
     font-weight: bold;
     text-align: center;
-    padding: 1.5rem;
-    font-size: 1.2rem; }
+    padding: 2rem;
+    font-size: 1.5rem; }
 
 #pTwoScores p {
   margin: auto 0 auto auto; }
 
 #main {
   width: 100%;
+  background-color: #E7D8F9;
+  border-radius: 0.5rem;
   border: 1px solid red;
   margin: 5rem;
-  background: rgba(255, 255, 255, 0.5); }
+  padding: 1rem; }
   #main form {
     padding: 2rem; }
   #main h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-align: center;
     padding: 3rem 0; }
   #main p {
@@ -47,9 +49,34 @@ input[type=radio] {
     font-size: 1.2rem; }
   #main input[type=text], #main select {
     display: block;
-    height: 1.5rem;
     width: 100%;
     margin: 0.5rem 0; }
+  #main input[type=text] {
+    height: 2rem; }
+  #main select {
+    height: 2.5rem;
+    padding: 0 0 0 0.5rem;
+    cursor: pointer; }
+
+#submitBtn, #confirmBtn {
+  width: 100%;
+  height: 2.5rem;
+  cursor: pointer; }
+
+#winner {
+  font-size: 2rem;
+  text-align: center; }
+
+#playAgain {
+  margin: 0 auto;
+  text-align: center;
+  background: orange;
+  width: 6rem;
+  border-radius: 0.4rem;
+  cursor: pointer; }
+  #playAgain a {
+    padding: 0.5rem;
+    text-decoration: none; }
 
 /* CLASSES */
 .answerChoices {
@@ -63,12 +90,14 @@ input[type=radio] {
     width: 48%;
     margin: 1rem 0; }
   .answerChoices input[type=radio] + label {
-    background-color: #e7e7e7;
+    background-color: #ff68f5;
     display: inline-block;
+    border-radius: 0.5rem;
     width: 100%;
     text-align: center;
     height: 3.5rem;
-    padding-top: 0.75rem; }
+    padding-top: 0.75rem;
+    cursor: pointer; }
   .answerChoices input[type=radio]:checked + label {
     background: green; }
 
