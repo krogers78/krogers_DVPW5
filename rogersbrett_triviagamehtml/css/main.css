@@ -27,7 +27,8 @@ input[type=radio] {
 #main {
   width: 100%;
   border: 1px solid red;
-  margin: 5rem; }
+  margin: 5rem;
+  background: rgba(255, 255, 255, 0.5); }
   #main form {
     padding: 2rem; }
   #main h1 {
@@ -48,13 +49,17 @@ input[type=radio] {
 .answerChoices {
   display: flex;
   width: 100%;
-  justify-content: space-between; }
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center; }
   .answerChoices div {
-    width: 100%; }
+    width: 48%;
+    margin: 1rem 0; }
   .answerChoices input[type=radio] + label {
     background-color: #e7e7e7;
     display: inline-block;
-    width: 95%;
+    width: 100%;
     text-align: center;
     height: 2.5rem;
     padding-top: 0.75rem; }
