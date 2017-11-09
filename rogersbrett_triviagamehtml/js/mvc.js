@@ -143,6 +143,15 @@ class Model {
             score: 0
           }
         }
+        anime({
+          targets: '#main',
+          scale: [
+            { value: 1, duration: 100 },
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 400 },
+          ],
+          duration: 2000,
+        })
         // Event that fires once all the information is gathered
         let evt = new Event('apiGet')
         evt.questions = newData
@@ -213,96 +222,293 @@ class View {
     if (players.playerOne.numCorrect == 1) {
       players.playerOne.score = 500
       document.querySelector('#pOneScores .pointfive').style.background = 'red'
-      document.querySelector('#pOneScores .pointfive').style.visibility = 'visible'
+      if (!(document.querySelector('#pOneScores .pointfive').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .pointfive').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .pointfive',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 2) {
       players.playerOne.score = 1000
-      document.querySelector('#pOneScores .onek').style.visibility = 'visible'
       document.querySelector('#pOneScores .onek').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .onek').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .onek').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .onek',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 3) {
       players.playerOne.score = 2000
-      document.querySelector('#pOneScores .twok').style.visibility = 'visible'      
       document.querySelector('#pOneScores .twok').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .twok').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .twok').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .twok',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 4) {
       players.playerOne.score = 3000
-      document.querySelector('#pOneScores .threek').style.visibility = 'visible'            
       document.querySelector('#pOneScores .threek').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .threek').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .threek').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .threek',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 5) {
       players.playerOne.score = 4000
-      document.querySelector('#pOneScores .fourk').style.visibility = 'visible'            
       document.querySelector('#pOneScores .fourk').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .fourk').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .fourk').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .fourk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 6) {
       players.playerOne.score = 5000
-      document.querySelector('#pOneScores .fivek').style.visibility = 'visible'            
       document.querySelector('#pOneScores .fivek').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .fivek').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .fivek').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .fivek',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 7) {
       players.playerOne.score = 6000
-      document.querySelector('#pOneScores .sixk').style.visibility = 'visible'            
       document.querySelector('#pOneScores .sixk').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .sixk').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .sixk').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .sixk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 8) {
       players.playerOne.score = 7000
-      document.querySelector('#pOneScores .sevenk').style.visibility = 'visible'
       document.querySelector('#pOneScores .sevenk').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .sevenk').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .sevenk').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .sevenk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 9) {
       players.playerOne.score = 8000
-      document.querySelector('#pOneScores .eightk').style.visibility = 'visible'
       document.querySelector('#pOneScores .eightk').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .eightk').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .eightk').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .eightk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerOne.numCorrect == 10) {
       players.playerOne.score = 10000
-      document.querySelector('#pOneScores .tenk').style.visibility = 'visible'
       document.querySelector('#pOneScores .tenk').style.background = 'red'
+      if (!(document.querySelector('#pOneScores .tenk').style.visibility == 'visible')) {
+        document.querySelector('#pOneScores .tenk').style.visibility = 'visible'
+        anime({
+          targets: '#pOneScores .tenk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     }
     // KEEP TRACK OF PLAYER TWO SCORE AND DISPLAY
     if (players.playerTwo.numCorrect == 1) {
       players.playerTwo.score = 500
       document.querySelector('#pTwoScores .pointfive').style.background = 'red'
-      document.querySelector('#pTwoScores .pointfive').style.visibility = 'visible'
+      if (!(document.querySelector('#pTwoScores .pointfive').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .pointfive').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .pointfive',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 2) {
       players.playerTwo.score = 1000
-      document.querySelector('#pTwoScores .onek').style.visibility = 'visible'      
       document.querySelector('#pTwoScores .onek').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .onek').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .onek').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .onek',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 3) {
       players.playerTwo.score = 2000
-      document.querySelector('#pTwoScores .twok').style.visibility = 'visible'      
       document.querySelector('#pTwoScores .twok').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .twok').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .twok').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .twok',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 4) {
       players.playerTwo.score = 3000
-      document.querySelector('#pTwoScores .threek').style.visibility = 'visible'      
       document.querySelector('#pTwoScores .threek').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .threek').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .threek').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .threek',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 5) {
       players.playerTwo.score = 4000
-      document.querySelector('#pTwoScores .fourk').style.visibility = 'visible'      
       document.querySelector('#pTwoScores .fourk').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .fourk').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .fourk').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .fourk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 6) {
       players.playerTwo.score = 5000
-      document.querySelector('#pTwoScores .fivek').style.visibility = 'visible'      
       document.querySelector('#pTwoScores .fivek').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .fivek').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .fivek').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .fivek',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 7) {
       players.playerTwo.score = 6000
-      document.querySelector('#pTwoScores .sixk').style.visibility = 'visible'      
       document.querySelector('#pTwoScores .sixk').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .sixk').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .sixk').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .sixk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 8) {
       players.playerTwo.score = 7000
-      document.querySelector('#pTwoScores .sevenk').style.visibility = 'visible'
       document.querySelector('#pTwoScores .sevenk').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .sevenk').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .sevenk').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .sevenk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 9) {
       players.playerTwo.score = 8000
-      document.querySelector('#pTwoScores .eightk').style.visibility = 'visible'
       document.querySelector('#pTwoScores .eightk').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .eightk').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .eightk').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .eightk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     } else if (players.playerTwo.numCorrect == 10) {
       players.playerTwo.score = 10000
-      document.querySelector('#pTwoScores .tenk').style.visibility = 'visible'
       document.querySelector('#pTwoScores .tenk').style.background = 'red'
+      if (!(document.querySelector('#pTwoScores .tenk').style.visibility == 'visible')) {
+        document.querySelector('#pTwoScores .tenk').style.visibility = 'visible'
+        anime({
+          targets: '#pTwoScores .tenk',
+          scale: [
+            { value: 0.2, duration: 100 },
+            { value: 1, duration: 800 }
+          ],
+          duration: 1000
+        })
+      }
     }
-    // Display the current amount of correct answers
-    // document.querySelector('#scores').innerHTML = `<h3>${players.playerOne.name}</h3>
-    //                                               <p>Correct: ${players.playerOne.numCorrect}</p>
-    //                                               <h3>${players.playerTwo.name}</h3>
-    //                                               <p>Correct: ${players.playerTwo.numCorrect}</p>`
     if (e.turn == 0) {
       console.log(`${players.playerOne.name}'s Turn!`)
     } else {
       console.log(`${players.playerTwo.name}'s Turn!`)      
     }
+    document.querySelector('#oneName').innerHTML = players.playerOne.name
+    document.querySelector('#twoName').innerHTML = players.playerTwo.name
 
     let evt = new Event('first')
     evt.questions = e.questions

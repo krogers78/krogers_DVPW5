@@ -2,7 +2,20 @@
 // https://opentdb.com/api.php?amount=10
 
 window.addEventListener('load', e => {
+  // animate the entrance of the main form
+  anime({
+    targets: '#main',
+    scale: [
+      { value: 0.2, duration: 100 },
+      { value: 1, duration: 800 }
+    ],
+    duration: 2000,
+   })
+
+
   this.game = Game.getInstance()
+
+
 })
 
 class Game {

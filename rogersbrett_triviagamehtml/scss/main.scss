@@ -3,7 +3,6 @@
   font-family: 'Bangla MN';
   src: url('/fonts/Bangla MN.ttf');
 }
-
 body {
   background: url('/assets/congruent_pentagon.png') repeat 0 0;
   animation: 50s linear 0s normal none infinite back_animate;
@@ -15,20 +14,25 @@ input[type=radio] {
 }
 /* BY ID */
 #pOneScores, #pTwoScores {
-  // visibility: hidden;
   width: 80%;
   p {
     border: 1px solid black;
     padding: 1rem 0;
     text-align: center;
     border-radius: 0.25rem;
+    visibility: hidden;
+  }
+  h3 {
+    font-weight: bold;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 1.2rem;
   }
 }
 #pTwoScores {
   p {
     margin: auto 0 auto auto;
   }
-  
 }
 #main {
   width: 100%;
@@ -74,7 +78,7 @@ input[type=radio] {
     display: inline-block;
     width: 100%;
     text-align: center;
-    height: 2.5rem;
+    height: 3.5rem;
     padding-top: 0.75rem;
   }
   input[type=radio]:checked + label {
@@ -87,16 +91,16 @@ input[type=radio] {
   display: flex;
   justify-content: center;
 }
-.tenk { width: 100%; visibility: hidden; }
-.eightk { width: 90%; visibility: hidden;  }
-.sevenk { width: 80%; visibility: hidden;  }
-.sixk { width: 70%; visibility: hidden;  }
-.fivek { width: 60%; visibility: hidden;  }
-.fourk { width: 50%; visibility: hidden;  }
-.threek { width: 40%; visibility: hidden;  }
-.twok { width: 30%; visibility: hidden;  }
-.onek { width: 20%; visibility: hidden;  }
-.pointfive { width: 15%; visibility: hidden;  }
+.tenk { width: 100%; }
+.eightk { width: 90%; }
+.sevenk { width: 80%; }
+.sixk { width: 70%; }
+.fivek { width: 60%; }
+.fourk { width: 50%; }
+.threek { width: 40%; }
+.twok { width: 30%; }
+.onek { width: 20%; }
+.pointfive { width: 15%; }
  /* KEYFRAMES  */
 @keyframes back_animate {
   0% { background-position: 0 0; }

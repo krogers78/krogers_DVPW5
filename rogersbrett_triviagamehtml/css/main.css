@@ -19,7 +19,13 @@ input[type=radio] {
     border: 1px solid black;
     padding: 1rem 0;
     text-align: center;
-    border-radius: 0.25rem; }
+    border-radius: 0.25rem;
+    visibility: hidden; }
+  #pOneScores h3, #pTwoScores h3 {
+    font-weight: bold;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 1.2rem; }
 
 #pTwoScores p {
   margin: auto 0 auto auto; }
@@ -61,7 +67,7 @@ input[type=radio] {
     display: inline-block;
     width: 100%;
     text-align: center;
-    height: 2.5rem;
+    height: 3.5rem;
     padding-top: 0.75rem; }
   .answerChoices input[type=radio]:checked + label {
     background: green; }
@@ -73,44 +79,34 @@ input[type=radio] {
   justify-content: center; }
 
 .tenk {
-  width: 100%;
-  visibility: hidden; }
+  width: 100%; }
 
 .eightk {
-  width: 90%;
-  visibility: hidden; }
+  width: 90%; }
 
 .sevenk {
-  width: 80%;
-  visibility: hidden; }
+  width: 80%; }
 
 .sixk {
-  width: 70%;
-  visibility: hidden; }
+  width: 70%; }
 
 .fivek {
-  width: 60%;
-  visibility: hidden; }
+  width: 60%; }
 
 .fourk {
-  width: 50%;
-  visibility: hidden; }
+  width: 50%; }
 
 .threek {
-  width: 40%;
-  visibility: hidden; }
+  width: 40%; }
 
 .twok {
-  width: 30%;
-  visibility: hidden; }
+  width: 30%; }
 
 .onek {
-  width: 20%;
-  visibility: hidden; }
+  width: 20%; }
 
 .pointfive {
-  width: 15%;
-  visibility: hidden; }
+  width: 15%; }
 
 /* KEYFRAMES  */
 @keyframes back_animate {
