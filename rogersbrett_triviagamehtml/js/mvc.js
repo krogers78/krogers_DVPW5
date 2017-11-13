@@ -21,19 +21,17 @@ class Controller {
   timerTest(e) {
     console.log(e)
     let timeLeft = 30
-
-    let x = setInterval(() => {
-      document.querySelector('#timer').innerHTML = timeLeft
-      timeLeft--
-      if (timeLeft < 0) {
-        clearInterval(x)
-        document.querySelector('#timer').innerHTML = 'TIME\'S UP'
-        // dispatch event to game logic
-      }
-    }, 1000)
+    let bar = 30/100
+    // var timeleft2 = 10;
+    let x = setInterval( () => {
+      document.querySelector("#timer").value = --timeLeft;
+      if (timeLeft <= 0)
+        clearInterval(x);
+    }, 1000);
 
     document.querySelector('#confirmBtn').addEventListener('click', () => {
       clearInterval(x)
+      document.querySelector("#timer").value = 30;      
       let evt = new Event('confirmClicked')
       evt.questions = e.questions
       evt.index = e.index
@@ -206,10 +204,7 @@ class View {
     // Tests whether the question is a true/false or not
     if (question[i].type == 'boolean') {
       let htmlString = `<p>Q: ${i+1}</p>
-                      <div id="outerProgress">
-                        <div id="innerProgress"></div>
-                      </div>
-                      <h2 id="timer"></h2>                      
+                      <progress value="30" min="0" max="30" id="timer"></progress>
                       <h1>${question[i].question}</h1>
                       <div class="answerChoices">
                         <div>
@@ -226,10 +221,7 @@ class View {
     // If the question if multiple choice
     } else {
       let htmlString = `<p>Q: ${i+1}</p>
-                    <div id="outerProgress">
-                      <div id="innerProgress"></div>
-                    </div>
-                    <h2 id="timer"></h2>
+                    <progress value="30" min="0" max="30" id="timer"></progress>
                     <h1>${question[i].question}</h1>
                     <div class="answerChoices">
                       <div>
