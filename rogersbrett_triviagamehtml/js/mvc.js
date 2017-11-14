@@ -20,25 +20,28 @@ class Controller {
   }
   timerTest(e) {
     console.log(e.players)
-    let timeLeft = 30
+    // function to countdown the timer for each question
+    let timeLeft = 4
     let x = setInterval( () => {
       document.querySelector("#timer").value = --timeLeft;
       if (timeLeft <= 0) {
         clearInterval(x);
 
-        let evt = new Event('timeOut')
+        // event to mark the question as incorrect
+        let evt = new Event('markIncorrect')
         evt.questions = e.questions
         evt.index = e.index
         evt.players = e.players
         evt.turn = e.turn
         document.dispatchEvent(evt)
       }
-       
     }, 1000);
-
+    // event that listens for a click on the question confirm button
     document.querySelector('#confirmBtn').addEventListener('click', () => {
+      // resetting the timer
       clearInterval(x)
-      document.querySelector("#timer").value = 30;      
+      document.querySelector("#timer").value = 30; 
+      // Event that fires when the question has been clicked  
       let evt = new Event('confirmClicked')
       evt.questions = e.questions
       evt.index = e.index
@@ -49,8 +52,8 @@ class Controller {
   }
   // capture the data from the users input
   captureForm(e) {
-
     e.preventDefault()
+    // play the background audio
     document.querySelector('#myAudio').play()
     document.querySelector('#myAudio').volume = 0.4
     document.querySelector('#myAudio').loop = true
@@ -69,6 +72,7 @@ class Controller {
   }
   // push the question to show in the view
   showQuestion(e) {
+    // Fire an event to show the question in the view
     let evt = new Event('qShow')
     evt.questions = e.questions
     evt.index = e.index
@@ -79,31 +83,35 @@ class Controller {
   
   getChoice(e) {
     e.preventDefault()
+    // Vairables to keep the scope of e to the event
     let data = e
     let correct = e.questions[e.index].correct_answer
     
-      let cOrI = true;
-      if (data.questions[data.index].type == 'boolean') {
-        if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
-          cOrI = true
-        } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correct) {
-          cOrI = true
-        } else {
-          cOrI = false
-        }
+    let cOrI = true;
+    // checks if the question is true or false
+    if (data.questions[data.index].type == 'boolean') {
+      // checks to find out if the correct answer was chosen
+      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
+        cOrI = true
+      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correct) {
+        cOrI = true
       } else {
-        if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
-          cOrI = true
-        } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correct) {
-          cOrI = true
-        } else if (document.querySelector('#answer3').checked && document.querySelector('#answer3').value == correct) {
-          cOrI = true
-        } else if (document.querySelector('#answer4').checked && document.querySelector('#answer4').value == correct) {
-          cOrI = true
-        } else {
-          cOrI = false
-        }
+        cOrI = false
       }
+    } else {
+      // checks to find out if the correct answer was chosen
+      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
+        cOrI = true
+      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correct) {
+        cOrI = true
+      } else if (document.querySelector('#answer3').checked && document.querySelector('#answer3').value == correct) {
+        cOrI = true
+      } else if (document.querySelector('#answer4').checked && document.querySelector('#answer4').value == correct) {
+        cOrI = true
+      } else {
+        cOrI = false
+      }
+    }
       // If the answer is correct
       if (cOrI) {
         // determines who's turn it is to answer
@@ -114,14 +122,18 @@ class Controller {
           data.players.playerTwo.numCorrect++        
           data.turn = 0
         }
+        // resets the players number of attempts
         data.players.playerOne.attempts = 0
-        data.players.playerTwo.attempts = 0  
+        data.players.playerTwo.attempts = 0
+        // moves on to the next question
         this.index++
         console.log('Correct Answer!')
       // If the answer is incorrect
       } else {
         console.log('Incorrect Answer!')
+        // play sound effect for wrong answer
         document.querySelector('#wrong').play()
+        // checks the players turn and marks their attempt as 1
         if (data.turn == 0) {
           data.turn = 1
           data.players.playerOne.attempts = 1          
@@ -214,7 +226,7 @@ class View {
   constructor() {
     document.addEventListener('qShow', this.showQuestion.bind(this))
     document.addEventListener('nextTry', this.showQuestion.bind(this))
-    document.addEventListener('timeOut', this.noTime.bind(this))
+    document.addEventListener('markIncorrect', this.incorrectAnswer.bind(this))
   }
   showQuestion(e) {
     // variables to shorten the use of it later and to keep the scope of e
@@ -225,7 +237,7 @@ class View {
     if (question[i].type == 'boolean') {
       let htmlString = `<div id="qData">
                         <p>Question: ${i+1}</p>
-                        <progress value="30" min="0" max="30" id="timer"></progress>
+                        <progress value="4" min="0" max="4" id="timer"></progress>
                       </div>
                       <h1>${question[i].question}</h1>
                       <div class="answerChoices">
@@ -244,7 +256,7 @@ class View {
     } else {
       let htmlString = `<div id="qData">
                         <p>Question: ${i + 1}</p>
-                        <progress value="30" min="0" max="30" id="timer"></progress>
+                        <progress value="4" min="0" max="4" id="timer"></progress>
                       </div>
                     <h1>${question[i].question}</h1>
                     <div class="answerChoices">
@@ -553,7 +565,7 @@ class View {
       twoName.className = 'nameAnimate'
       twoName.addEventListener('animationend', () => twoName.classList.remove('nameAnimate'))
     }
-    
+    // Event fires to return the code to the function with the timer
     let evt = new Event('timerCheck')
     evt.questions = e.questions
     evt.index = i
@@ -561,8 +573,17 @@ class View {
     evt.turn = e.turn
     document.dispatchEvent(evt)
   }
-  noTime(e) {
-    console.log(e.players)
+  incorrectAnswer(e) {
+    // checks to see if both players had a chance and marks moves on to the next question
+    if (e.players.playerTwo.attempts == 1 && e.players.playerOne.attempts == 1) {
+      e.index++
+      e.players.playerOne.attempts = 0
+      e.players.playerTwo.attempts = 0
+      document.querySelector('#main').innerHTML = `<div id="answerCorrect">
+                                                    <h2>Correct Answer</h2>
+                                                    <p>${e.questions[e.index].correct_answer}</p>
+                                                  </div>`
+    }
     let x = setInterval(() => {
       // determines who's turn it is to answer
       if (e.turn == 0) {
@@ -572,16 +593,7 @@ class View {
         e.players.playerTwo.attempts = 1
         e.turn = 0
       }
-      // checks to see if both players had a chance and marks moves on to the next question
-      if (e.players.playerTwo.attempts == 1 && e.players.playerOne.attempts == 1) {
-        e.index++
-        e.players.playerOne.attempts = 0
-        e.players.playerTwo.attempts = 0
-        document.querySelector('#main').innerHTML = `<div id="answerCorrect">
-                                                    <h2>Correct Answer</h2>
-                                                    <p>${e.questions[e.index].correct_answer}</p>
-                                                  </div>`
-      }
+      // Event that fires that brings up the question with the next player's turn
       let evt = new Event('nextTry')
       evt.questions = e.questions
       evt.index = e.index
@@ -589,6 +601,7 @@ class View {
       evt.turn = e.turn
       document.dispatchEvent(evt)
       clearInterval(x)
-    }, 6000)
+    }, 4000)
+    console.log(e.players)
   }
 }
