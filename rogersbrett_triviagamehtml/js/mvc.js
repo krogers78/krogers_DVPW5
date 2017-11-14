@@ -21,12 +21,13 @@ class Controller {
   timerTest(e) {
     console.log(e.players)
     // function to countdown the timer for each question
-    let timeLeft = 4
+    let timeLeft = 40
     let x = setInterval( () => {
       document.querySelector("#timer").value = --timeLeft;
       if (timeLeft <= 0) {
         clearInterval(x);
 
+        // document.querySelector('#confirmBtn').disabled = true
         // event to mark the question as incorrect
         let evt = new Event('markIncorrect')
         evt.questions = e.questions
@@ -80,40 +81,39 @@ class Controller {
     evt.turn = e.turn
     document.dispatchEvent(evt)
   }
-  
   getChoice(e) {
     e.preventDefault()
-    // Vairables to keep the scope of e to the event
+    // Variables to keep the scope of e to the event
     let data = e
-    let correct = e.questions[e.index].correct_answer
+    let correctAnswer = e.questions[e.index].correct_answer
     
-    let cOrI = true;
+    let correctOrIncorrect = false;
     // checks if the question is true or false
     if (data.questions[data.index].type == 'boolean') {
       // checks to find out if the correct answer was chosen
-      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
-        cOrI = true
-      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correct) {
-        cOrI = true
+      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correctAnswer) {
+        correctOrIncorrect = true
+      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correctAnswer) {
+        correctOrIncorrect = true
       } else {
-        cOrI = false
+        correctOrIncorrect = false
       }
     } else {
       // checks to find out if the correct answer was chosen
-      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
-        cOrI = true
-      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correct) {
-        cOrI = true
-      } else if (document.querySelector('#answer3').checked && document.querySelector('#answer3').value == correct) {
-        cOrI = true
-      } else if (document.querySelector('#answer4').checked && document.querySelector('#answer4').value == correct) {
-        cOrI = true
+      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correctAnswer) {
+        correctOrIncorrect = true
+      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correctAnswer) {
+        correctOrIncorrect = true
+      } else if (document.querySelector('#answer3').checked && document.querySelector('#answer3').value == correctAnswer) {
+        correctOrIncorrect = true
+      } else if (document.querySelector('#answer4').checked && document.querySelector('#answer4').value == correctAnswer) {
+        correctOrIncorrect = true
       } else {
-        cOrI = false
+        correctOrIncorrect = false
       }
     }
       // If the answer is correct
-      if (cOrI) {
+      if (correctOrIncorrect) {
         // determines who's turn it is to answer
         if (data.turn == 0) {
           data.players.playerOne.numCorrect++          
@@ -160,6 +160,7 @@ class Controller {
 class Model {
   constructor() {
     document.addEventListener('dataGet', this.makeApiCall.bind(this))
+    // document.addEventListener('markIncorrect', this.incorrectAnswer.bind(this))
   }
   makeApiCall(e) {
     // make the call easier later
@@ -226,7 +227,7 @@ class View {
   constructor() {
     document.addEventListener('qShow', this.showQuestion.bind(this))
     document.addEventListener('nextTry', this.showQuestion.bind(this))
-    document.addEventListener('markIncorrect', this.incorrectAnswer.bind(this))
+    // document.addEventListener('markIncorrect', this.incorrectAnswer.bind(this))
   }
   showQuestion(e) {
     // variables to shorten the use of it later and to keep the scope of e
@@ -237,7 +238,7 @@ class View {
     if (question[i].type == 'boolean') {
       let htmlString = `<div id="qData">
                         <p>Question: ${i+1}</p>
-                        <progress value="4" min="0" max="4" id="timer"></progress>
+                        <progress value="40" min="0" max="40" id="timer"></progress>
                       </div>
                       <h1>${question[i].question}</h1>
                       <div class="answerChoices">
@@ -256,7 +257,7 @@ class View {
     } else {
       let htmlString = `<div id="qData">
                         <p>Question: ${i + 1}</p>
-                        <progress value="4" min="0" max="4" id="timer"></progress>
+                        <progress value="40" min="0" max="40" id="timer"></progress>
                       </div>
                     <h1>${question[i].question}</h1>
                     <div class="answerChoices">
@@ -285,268 +286,68 @@ class View {
     // KEEP TRACK OF PLAYER ONE SCORE AND DISPLAY
     if (players.playerOne.numCorrect == 1) {
       players.playerOne.score = 500
-      if (!(document.querySelector('#pOneScores .pointfive').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .pointfive').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .pointfive',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'pointfive')
     } else if (players.playerOne.numCorrect == 2) {
       players.playerOne.score = 1000
-      if (!(document.querySelector('#pOneScores .onek').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .onek').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .onek',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'onek')
     } else if (players.playerOne.numCorrect == 3) {
       players.playerOne.score = 2000
-      if (!(document.querySelector('#pOneScores .twok').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .twok').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .twok',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'twok')
     } else if (players.playerOne.numCorrect == 4) {
       players.playerOne.score = 3000
-      if (!(document.querySelector('#pOneScores .threek').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .threek').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .threek',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'threek')
     } else if (players.playerOne.numCorrect == 5) {
       players.playerOne.score = 4000
-      if (!(document.querySelector('#pOneScores .fourk').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .fourk').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .fourk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'fourk')
     } else if (players.playerOne.numCorrect == 6) {
       players.playerOne.score = 5000
-      if (!(document.querySelector('#pOneScores .fivek').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .fivek').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .fivek',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'fivek')
     } else if (players.playerOne.numCorrect == 7) {
       players.playerOne.score = 6000
-      if (!(document.querySelector('#pOneScores .sixk').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .sixk').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .sixk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'sixk')
     } else if (players.playerOne.numCorrect == 8) {
       players.playerOne.score = 7000
-      if (!(document.querySelector('#pOneScores .sevenk').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .sevenk').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .sevenk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'sevenk')
     } else if (players.playerOne.numCorrect == 9) {
       players.playerOne.score = 8000
-      if (!(document.querySelector('#pOneScores .eightk').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .eightk').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .eightk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'eightk')
     } else if (players.playerOne.numCorrect == 10) {
       players.playerOne.score = 10000
-      if (!(document.querySelector('#pOneScores .tenk').style.visibility == 'visible')) {
-        document.querySelector('#pOneScores .tenk').style.visibility = 'visible'
-        anime({
-          targets: '#pOneScores .tenk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pOneScores', 'tenk')
       document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
                                                   <p id="playAgain"><a href="/">Play Again</a></p>`
     }
     // KEEP TRACK OF PLAYER TWO SCORE AND DISPLAY
     if (players.playerTwo.numCorrect == 1) {
       players.playerTwo.score = 500
-      if (!(document.querySelector('#pTwoScores .pointfive').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .pointfive').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .pointfive',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'pointfive') 
     } else if (players.playerTwo.numCorrect == 2) {
       players.playerTwo.score = 1000
-      if (!(document.querySelector('#pTwoScores .onek').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .onek').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .onek',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'onek')
     } else if (players.playerTwo.numCorrect == 3) {
       players.playerTwo.score = 2000
-      if (!(document.querySelector('#pTwoScores .twok').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .twok').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .twok',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'twok')
     } else if (players.playerTwo.numCorrect == 4) {
       players.playerTwo.score = 3000
-      if (!(document.querySelector('#pTwoScores .threek').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .threek').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .threek',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'threek')
     } else if (players.playerTwo.numCorrect == 5) {
       players.playerTwo.score = 4000
-      if (!(document.querySelector('#pTwoScores .fourk').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .fourk').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .fourk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'fourk')
     } else if (players.playerTwo.numCorrect == 6) {
       players.playerTwo.score = 5000
-      if (!(document.querySelector('#pTwoScores .fivek').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .fivek').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .fivek',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'fivek')
     } else if (players.playerTwo.numCorrect == 7) {
       players.playerTwo.score = 6000
-      if (!(document.querySelector('#pTwoScores .sixk').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .sixk').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .sixk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'sixk')
     } else if (players.playerTwo.numCorrect == 8) {
       players.playerTwo.score = 7000
-      if (!(document.querySelector('#pTwoScores .sevenk').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .sevenk').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .sevenk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'sevenk')
     } else if (players.playerTwo.numCorrect == 9) {
       players.playerTwo.score = 8000
-      if (!(document.querySelector('#pTwoScores .eightk').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .eightk').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .eightk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'eightk')
     } else if (players.playerTwo.numCorrect == 10) {
       players.playerTwo.score = 10000
-      if (!(document.querySelector('#pTwoScores .tenk').style.visibility == 'visible')) {
-        document.querySelector('#pTwoScores .tenk').style.visibility = 'visible'
-        anime({
-          targets: '#pTwoScores .tenk',
-          scale: [
-            { value: 0.2, duration: 100 },
-            { value: 1, duration: 800 }
-          ],
-          duration: 1000
-        })
-      }
+      Utils.animateScore('pTwoScores', 'tenk')
       document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
                                                   <p id="playAgain"><a href="/">Play Again</a></p>`
     }

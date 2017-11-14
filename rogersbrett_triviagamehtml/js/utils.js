@@ -16,4 +16,17 @@ class Utils {
     }
     return array
   }
+  static animateScore(id, score) {
+    if (!(document.querySelector(`#${id} .${score}`).style.visibility == 'visible')) {
+      document.querySelector(`#${id} .${score}`).style.visibility = 'visible'
+      anime({
+        targets: `#${id} .${score}`,
+        scale: [
+          { value: 0.2, duration: 100 },
+          { value: 1, duration: 800 }
+        ],
+        duration: 1000
+      })
+    }
+  }
 }
