@@ -20,13 +20,22 @@ class Controller {
   }
   timerTest(e) {
     console.log(e)
-    let timeLeft = 30
-    let bar = 30/100
+    let timeLeft = 10
+    // let bar = 30/100
     // var timeleft2 = 10;
     let x = setInterval( () => {
       document.querySelector("#timer").value = --timeLeft;
-      if (timeLeft <= 0)
+      if (timeLeft <= 0) {
         clearInterval(x);
+
+        let evt = new Event('timeOut')
+        evt.questions = e.questions
+        evt.index = e.index
+        evt.players = e.players
+        evt.turn = e.turn
+        document.dispatchEvent(evt)
+      }
+       
     }, 1000);
 
     document.querySelector('#confirmBtn').addEventListener('click', () => {
@@ -73,7 +82,6 @@ class Controller {
     let data = e
     let correct = e.questions[e.index].correct_answer
     
-    // document.querySelector('#confirmBtn').addEventListener('click', e => {
       let cOrI = true;
       if (data.questions[data.index].type == 'boolean') {
         if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correct) {
@@ -96,36 +104,44 @@ class Controller {
           cOrI = false
         }
       }
+      // If the answer is correct
       if (cOrI) {
         // determines who's turn it is to answer
         if (data.turn == 0) {
-          data.players.playerOne.numCorrect++
-          console.log('Player One Score', data.players.playerOne.numCorrect)
+          data.players.playerOne.numCorrect++          
           data.turn = 1
         } else {
-          data.players.playerTwo.numCorrect++
+          data.players.playerTwo.numCorrect++        
           data.turn = 0
         }
-
+        data.players.playerOne.attempts = 0
+        data.players.playerTwo.attempts = 0  
         this.index++
         console.log('Correct Answer!')
+      // If the answer is incorrect
       } else {
         console.log('Incorrect Answer!')
         if (data.turn == 0) {
           data.turn = 1
+          data.players.playerOne.attempts = 1          
         } else {
           data.turn = 0
+          data.players.playerTwo.attempts = 1          
+        }
+        // checks the amount of attempt from each  player and moves on if both players made an attempt already
+        if (data.players.playerOne.attempts == 1 && data.players.playerTwo.attempts == 1) {
+          data.players.playerOne.attempts = 0
+          data.players.playerTwo.attempts = 0
+          this.index++
         }
       }
       // Event that fires once the question has been answered
       let evt = new Event('qShow')
       evt.index = this.index
       evt.questions = data.questions
-      // evt.names = names
       evt.players = data.players
       evt.turn = data.turn
       document.dispatchEvent(evt)
-    // })
   }
 }
 class Model {
@@ -136,7 +152,7 @@ class Model {
     // make the call easier later
     let setupInfo = e.data
     // base url options
-    let url = 'https://opentdb.com/api.php?amount=20'
+    let url = 'https://opentdb.com/api.php?amount=50'
     let options = { method: 'GET' }
     // check the data and configure the url accordingly
     if (setupInfo.category != 'any') {
@@ -160,12 +176,14 @@ class Model {
           playerOne: {
             name: setupInfo.oName,
             numCorrect: 0,
-            score: 0
+            score: 0,
+            attempts: 0
           },
           playerTwo: {
             name: setupInfo.tName,
             numCorrect: 0,
-            score: 0
+            score: 0,
+            attempts: 0
           }
         }
         anime({
@@ -194,7 +212,8 @@ class Model {
 class View {
   constructor() {
     document.addEventListener('qShow', this.showQuestion.bind(this))
-    // document.addEventListener('correctAns', this.nextQuestion.bind(this))
+    document.addEventListener('nextTry', this.showQuestion.bind(this))
+    document.addEventListener('timeOut', this.noTime.bind(this))
   }
   showQuestion(e) {
     // variables to shorten the use of it later and to keep the scope of e
@@ -203,8 +222,8 @@ class View {
     let players = e.players
     // Tests whether the question is a true/false or not
     if (question[i].type == 'boolean') {
-      let htmlString = `<p>Q: ${i+1}</p>
-                      <progress value="30" min="0" max="30" id="timer"></progress>
+      let htmlString = `<p>Question: ${i+1}</p>
+                      <progress value="10" min="0" max="10" id="timer"></progress>
                       <h1>${question[i].question}</h1>
                       <div class="answerChoices">
                         <div>
@@ -220,8 +239,8 @@ class View {
       document.querySelector('#main').innerHTML = htmlString
     // If the question if multiple choice
     } else {
-      let htmlString = `<p>Q: ${i+1}</p>
-                    <progress value="30" min="0" max="30" id="timer"></progress>
+      let htmlString = `<p>Question: ${i+1}</p>
+                    <progress value="10" min="0" max="10" id="timer"></progress>
                     <h1>${question[i].question}</h1>
                     <div class="answerChoices">
                       <div>
@@ -538,5 +557,36 @@ class View {
     evt.players = players
     evt.turn = e.turn
     document.dispatchEvent(evt)
+  }
+  noTime(e) {
+    console.log(e)
+    let x = setInterval(() => {
+      // determines who's turn it is to answer
+      if (e.turn == 0) {
+        e.players.playerOne.attempts = 1
+        // console.log('Player One Score', data.players.playerOne.numCorrect)
+        e.turn = 1
+      } else {
+        e.players.playerTwo.attempts = 1
+        e.turn = 0
+      }
+      // checks to see if both players had a chance and marks moves on to the next question
+      if (e.players.playerTwo.attempts == 1 && e.players.playerOne.attempts == 1) {
+        e.index++
+        e.players.playerOne.attempts = 0
+        e.players.playerTwo.attempts = 0
+        document.querySelector('#main').innerHTML = `<div id="answerCorrect">
+                                                    <h2>Correct Answer</h2>
+                                                    <p>${e.questions[e.index].correct_answer}</p>
+                                                  </div>`
+      }
+      let evt = new Event('nextTry')
+      evt.questions = e.questions
+      evt.index = e.index
+      evt.players = e.players
+      evt.turn = e.turn
+      document.dispatchEvent(evt)
+      clearInterval(x)
+    }, 6000)
   }
 }
