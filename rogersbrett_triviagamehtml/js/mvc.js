@@ -19,10 +19,8 @@ class Controller {
     document.addEventListener('timerCheck', this.timerTest.bind(this))
   }
   timerTest(e) {
-    console.log(e)
-    let timeLeft = 10
-    // let bar = 30/100
-    // var timeleft2 = 10;
+    console.log(e.players)
+    let timeLeft = 30
     let x = setInterval( () => {
       document.querySelector("#timer").value = --timeLeft;
       if (timeLeft <= 0) {
@@ -52,8 +50,10 @@ class Controller {
   // capture the data from the users input
   captureForm(e) {
 
-    console.log('CAPTURE FORM', e)
     e.preventDefault()
+    document.querySelector('#myAudio').play()
+    document.querySelector('#myAudio').volume = 0.4
+    document.querySelector('#myAudio').loop = true
     // capture all the values from the inputs and populate the data object
     this.playerData.oName = this.oName.value
     this.playerData.tName = this.tName.value
@@ -121,6 +121,7 @@ class Controller {
       // If the answer is incorrect
       } else {
         console.log('Incorrect Answer!')
+        document.querySelector('#wrong').play()
         if (data.turn == 0) {
           data.turn = 1
           data.players.playerOne.attempts = 1          
@@ -222,8 +223,10 @@ class View {
     let players = e.players
     // Tests whether the question is a true/false or not
     if (question[i].type == 'boolean') {
-      let htmlString = `<p>Question: ${i+1}</p>
-                      <progress value="10" min="0" max="10" id="timer"></progress>
+      let htmlString = `<div id="qData">
+                        <p>Question: ${i+1}</p>
+                        <progress value="30" min="0" max="30" id="timer"></progress>
+                      </div>
                       <h1>${question[i].question}</h1>
                       <div class="answerChoices">
                         <div>
@@ -239,8 +242,10 @@ class View {
       document.querySelector('#main').innerHTML = htmlString
     // If the question if multiple choice
     } else {
-      let htmlString = `<p>Question: ${i+1}</p>
-                    <progress value="10" min="0" max="10" id="timer"></progress>
+      let htmlString = `<div id="qData">
+                        <p>Question: ${i + 1}</p>
+                        <progress value="30" min="0" max="30" id="timer"></progress>
+                      </div>
                     <h1>${question[i].question}</h1>
                     <div class="answerChoices">
                       <div>
@@ -542,11 +547,9 @@ class View {
 
     // Let the players know who's turn it is
     if (e.turn == 0) {
-      console.log(`${players.playerOne.name}'s Turn!`) 
       oneName.className = 'nameAnimate'
       oneName.addEventListener('animationend', () => oneName.classList.remove('nameAnimate'))
     } else {
-      console.log(`${players.playerTwo.name}'s Turn!`)
       twoName.className = 'nameAnimate'
       twoName.addEventListener('animationend', () => twoName.classList.remove('nameAnimate'))
     }
@@ -559,12 +562,11 @@ class View {
     document.dispatchEvent(evt)
   }
   noTime(e) {
-    console.log(e)
+    console.log(e.players)
     let x = setInterval(() => {
       // determines who's turn it is to answer
       if (e.turn == 0) {
         e.players.playerOne.attempts = 1
-        // console.log('Player One Score', data.players.playerOne.numCorrect)
         e.turn = 1
       } else {
         e.players.playerTwo.attempts = 1
