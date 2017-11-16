@@ -14,8 +14,6 @@ window.addEventListener('load', e => {
 
 
   this.game = Game.getInstance()
-
-
 })
 
 class Game {

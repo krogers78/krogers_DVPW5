@@ -8,8 +8,8 @@ class Controller {
     this.category = document.querySelector('#categoryPicker')
     this.difficulty = document.querySelector('#difficultyPicker')
     this.playerData = new PlayerData()
-    this.index = 0
     this.pTurn = 0
+    this.correctOrIncorrect = false
 
     // Fires upon cliking the submit button for questions
     document.querySelector('#submitBtn').addEventListener('click', this.captureForm.bind(this))
@@ -17,23 +17,103 @@ class Controller {
     document.addEventListener('apiGet', this.showQuestion.bind(this))
     document.addEventListener('confirmClicked', this.getChoice.bind(this))
     document.addEventListener('timerCheck', this.timerTest.bind(this))
+    document.addEventListener('buffer', this.buffer.bind(this))
   }
-  timerTest(e) {
-    console.log(e.players)
-    // function to countdown the timer for each question
-    let timeLeft = 40
-    let x = setInterval( () => {
-      document.querySelector("#timer").value = --timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(x);
+  buffer(e) {
+    let correctAnswer = e.questions[e.index].correct_answer
+    let a1 = document.querySelector('#answer1')
+    let a2 = document.querySelector('#answer2')
+    let a3 = document.querySelector('#answer3')
+    let a4 = document.querySelector('#answer4')
 
-        // document.querySelector('#confirmBtn').disabled = true
-        // event to mark the question as incorrect
-        let evt = new Event('markIncorrect')
+    if (e.correct) {
+      if (e.questions[e.index].type == 'boolean') {
+        if (a1 && a1.value == correctAnswer) {
+          document.querySelector('#answer1 + label').style.background = 'green'
+        } else if (a2 && a2.value == correctAnswer) {
+          document.querySelector('#answer2 + label').style.background = 'green'
+        }
+      } else {
+        if (a1 && a1.value == correctAnswer) {
+          document.querySelector('#answer1 + label').style.background = 'orange'
+        } else if (a2 && a2.value == correctAnswer) {
+          document.querySelector('#answer2 + label').style.background = 'orange'
+        } else if (a3 && a3.value == correctAnswer) {
+          document.querySelector('#answer3 + label').style.background = 'orange'
+        } else if (a4 && a4.value == correctAnswer) {
+          document.querySelector('#answer4 + label').style.background = 'orange'
+        }
+      }
+      e.index++
+      // Event that fires that brings up the question with the next player's turn
+      let x = setInterval(() => {
+        let evt = new Event('nextTry')
         evt.questions = e.questions
         evt.index = e.index
         evt.players = e.players
         evt.turn = e.turn
+        document.dispatchEvent(evt)
+        clearInterval(x)
+      }, 4000)
+    } else {
+      if (e.players.playerOne.attempts == 1 && e.players.playerTwo.attempts == 1) {
+        if (e.questions[e.index] == 'boolean') {
+          if (a1 && a1.value == correctAnswer) {
+            document.querySelector('#answer1 + label').style.background = 'green'
+          } else if (a2 && a2.value == correctAnswer) {
+            document.querySelector('#answer2 + label').style.background = 'green'
+          }
+        } else {
+          if (a1 && a1.value == correctAnswer) {
+            document.querySelector('#answer1 + label').style.background = 'green'
+          } else if (a2 && a2.value == correctAnswer) {
+            document.querySelector('#answer2 + label').style.background = 'green'
+          } else if (a3 && a3.value == correctAnswer) {
+            document.querySelector('#answer3 + label').style.background = 'green'
+          } else if (a4 && a4.value == correctAnswer) {
+            document.querySelector('#answer4 + label').style.background = 'green'
+          }
+        }
+        e.index++
+        e.players.playerOne.attempts == 0
+        e.players.playerTwo.attempts == 0
+        // Event that fires that brings up the question with the next player's turn
+        let x = setInterval(() => {
+          let evt = new Event('nextTry')
+          evt.questions = e.questions
+          evt.index = e.index
+          evt.players = e.players
+          evt.turn = e.turn
+          document.dispatchEvent(evt)
+          clearInterval(x)
+        }, 4000)
+      } else {
+        let evt = new Event('nextTry')
+        evt.questions = e.questions
+        evt.index = e.index
+        evt.players = e.players
+        evt.turn = e.turn
+        document.dispatchEvent(evt)
+      }
+    }
+  }
+  timerTest(e) {
+    // function to countdown the timer for each question
+    this.correctOrIncorrect = false
+    let timeLeft = 4
+    let x = setInterval( () => {
+      document.querySelector("#timer").value = --timeLeft;
+      if (timeLeft < 0) {
+        clearInterval(x);
+
+        // document.querySelector('#confirmBtn').disabled = true
+        // event to mark the question as incorrect
+        let evt = new Event('turnOver')
+        evt.questions = e.questions
+        evt.index = e.index
+        evt.players = e.players
+        evt.turn = e.turn
+        evt.correct = this.correctOrIncorrect        
         document.dispatchEvent(evt)
       }
     }, 1000);
@@ -54,10 +134,11 @@ class Controller {
   // capture the data from the users input
   captureForm(e) {
     e.preventDefault()
+    let index = 0
     // play the background audio
-    document.querySelector('#myAudio').play()
-    document.querySelector('#myAudio').volume = 0.4
-    document.querySelector('#myAudio').loop = true
+    // document.querySelector('#myAudio').play()
+    // document.querySelector('#myAudio').volume = 0.4
+    // document.querySelector('#myAudio').loop = true
     // capture all the values from the inputs and populate the data object
     this.playerData.oName = this.oName.value
     this.playerData.tName = this.tName.value
@@ -67,7 +148,7 @@ class Controller {
     // Fire the event upon grabbing all the data
     let evt = new Event('dataGet')
     evt.data = this.playerData
-    evt.index = this.index
+    evt.index = index
     evt.turn = this.pTurn
     document.dispatchEvent(evt)
   }
@@ -86,81 +167,84 @@ class Controller {
     // Variables to keep the scope of e to the event
     let data = e
     let correctAnswer = e.questions[e.index].correct_answer
+    // store inputs in variables
+    let a1 = document.querySelector('#answer1')
+    let a2 = document.querySelector('#answer2')
+    let a3 = document.querySelector('#answer3')
+    let a4 = document.querySelector('#answer4')
+    this.correctOrIncorrect = false    
     
-    let correctOrIncorrect = false;
     // checks if the question is true or false
     if (data.questions[data.index].type == 'boolean') {
       // checks to find out if the correct answer was chosen
-      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correctAnswer) {
-        correctOrIncorrect = true
-      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correctAnswer) {
-        correctOrIncorrect = true
-      } else {
-        correctOrIncorrect = false
+      if (a1 && a1.checked && a1.value == correctAnswer) {
+        this.correctOrIncorrect = true
+      } else if (a2 && a2.checked && a2.value == correctAnswer) {
+        this.correctOrIncorrect = true
       }
     } else {
       // checks to find out if the correct answer was chosen
-      if (document.querySelector('#answer1').checked && document.querySelector('#answer1').value == correctAnswer) {
-        correctOrIncorrect = true
-      } else if (document.querySelector('#answer2').checked && document.querySelector('#answer2').value == correctAnswer) {
-        correctOrIncorrect = true
-      } else if (document.querySelector('#answer3').checked && document.querySelector('#answer3').value == correctAnswer) {
-        correctOrIncorrect = true
-      } else if (document.querySelector('#answer4').checked && document.querySelector('#answer4').value == correctAnswer) {
-        correctOrIncorrect = true
-      } else {
-        correctOrIncorrect = false
+      if (a1 && a1.checked && a1.value == correctAnswer) {
+        this.correctOrIncorrect = true
+      } else if (a2 && a2.checked && a2.value == correctAnswer) {
+        this.correctOrIncorrect = true
+      } else if (a3 && a3.checked && a3.value == correctAnswer) {
+        this.correctOrIncorrect = true
+      } else if (a4 && a4.checked && a4.value == correctAnswer) {
+        this.correctOrIncorrect = true
       }
     }
-      // If the answer is correct
-      if (correctOrIncorrect) {
-        // determines who's turn it is to answer
-        if (data.turn == 0) {
-          data.players.playerOne.numCorrect++          
-          data.turn = 1
-        } else {
-          data.players.playerTwo.numCorrect++        
-          data.turn = 0
-        }
-        // resets the players number of attempts
-        data.players.playerOne.attempts = 0
-        data.players.playerTwo.attempts = 0
-        // moves on to the next question
-        this.index++
-        console.log('Correct Answer!')
-      // If the answer is incorrect
-      } else {
-        console.log('Incorrect Answer!')
-        // play sound effect for wrong answer
-        document.querySelector('#wrong').play()
-        // checks the players turn and marks their attempt as 1
-        if (data.turn == 0) {
-          data.turn = 1
-          data.players.playerOne.attempts = 1          
-        } else {
-          data.turn = 0
-          data.players.playerTwo.attempts = 1          
-        }
-        // checks the amount of attempt from each  player and moves on if both players made an attempt already
-        if (data.players.playerOne.attempts == 1 && data.players.playerTwo.attempts == 1) {
-          data.players.playerOne.attempts = 0
-          data.players.playerTwo.attempts = 0
-          this.index++
-        }
-      }
       // Event that fires once the question has been answered
-      let evt = new Event('qShow')
-      evt.index = this.index
+      let evt = new Event('turnOver')
+      evt.index = e.index
       evt.questions = data.questions
       evt.players = data.players
       evt.turn = data.turn
+      evt.correct = this.correctOrIncorrect
       document.dispatchEvent(evt)
   }
 }
 class Model {
   constructor() {
     document.addEventListener('dataGet', this.makeApiCall.bind(this))
-    // document.addEventListener('markIncorrect', this.incorrectAnswer.bind(this))
+    document.addEventListener('turnOver', this.turnEnd.bind(this))
+  }
+  turnEnd(e) {
+    if (e.correct) {
+      // determines who's turn it is to answer
+      if (e.turn == 0) {
+        e.turn = 1
+        e.players.playerOne.numCorrect++
+      } else {
+        e.turn = 0
+        e.players.playerTwo.numCorrect++
+      }
+      e.players.playerOne.attempts = 0
+      e.players.playerTwo.attempts = 0
+      // e.index++
+      console.log('Correct Answer!', e.index)
+      
+      
+    } else {
+      // determines who's turn it is to answer
+      if (e.turn == 0) {
+        e.turn = 1
+        e.players.playerOne.attempts = 1
+      } else {
+        e.turn = 0
+        e.players.playerTwo.attempts = 1
+      }
+      console.log('Incorrect Answer!', e.index)
+    }
+    // Event that fires that brings up the question with the next player's turn
+    let evt = new Event('buffer')
+    evt.questions = e.questions
+    evt.index = e.index
+    evt.players = e.players
+    evt.turn = e.turn
+    evt.correct = e.correct
+    document.dispatchEvent(evt)
+    
   }
   makeApiCall(e) {
     // make the call easier later
@@ -227,7 +311,6 @@ class View {
   constructor() {
     document.addEventListener('qShow', this.showQuestion.bind(this))
     document.addEventListener('nextTry', this.showQuestion.bind(this))
-    // document.addEventListener('markIncorrect', this.incorrectAnswer.bind(this))
   }
   showQuestion(e) {
     // variables to shorten the use of it later and to keep the scope of e
@@ -238,7 +321,7 @@ class View {
     if (question[i].type == 'boolean') {
       let htmlString = `<div id="qData">
                         <p>Question: ${i+1}</p>
-                        <progress value="40" min="0" max="40" id="timer"></progress>
+                        <progress value="4" min="0" max="4" id="timer"></progress>
                       </div>
                       <h1>${question[i].question}</h1>
                       <div class="answerChoices">
@@ -257,7 +340,7 @@ class View {
     } else {
       let htmlString = `<div id="qData">
                         <p>Question: ${i + 1}</p>
-                        <progress value="40" min="0" max="40" id="timer"></progress>
+                        <progress value="4" min="0" max="4" id="timer"></progress>
                       </div>
                     <h1>${question[i].question}</h1>
                     <div class="answerChoices">
@@ -281,8 +364,6 @@ class View {
                       <button type="button" id="confirmBtn">Confirm</button>`
       document.querySelector('#main').innerHTML = htmlString
     }
-
-
     // KEEP TRACK OF PLAYER ONE SCORE AND DISPLAY
     if (players.playerOne.numCorrect == 1) {
       players.playerOne.score = 500
@@ -403,6 +484,5 @@ class View {
       document.dispatchEvent(evt)
       clearInterval(x)
     }, 4000)
-    console.log(e.players)
   }
 }
