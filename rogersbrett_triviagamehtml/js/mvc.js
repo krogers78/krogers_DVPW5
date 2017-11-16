@@ -36,13 +36,13 @@ class Controller {
       // If the question is not a boolean
       } else {
         if (a1 && a1.value == correctAnswer) {
-          document.querySelector('#answer1 + label').style.background = 'orange'
+          document.querySelector('#answer1 + label').style.background = 'green'
         } else if (a2 && a2.value == correctAnswer) {
-          document.querySelector('#answer2 + label').style.background = 'orange'
+          document.querySelector('#answer2 + label').style.background = 'green'
         } else if (a3 && a3.value == correctAnswer) {
-          document.querySelector('#answer3 + label').style.background = 'orange'
+          document.querySelector('#answer3 + label').style.background = 'green'
         } else if (a4 && a4.value == correctAnswer) {
-          document.querySelector('#answer4 + label').style.background = 'orange'
+          document.querySelector('#answer4 + label').style.background = 'green'
         }
       }
       // increase the index to the next question
@@ -79,11 +79,11 @@ class Controller {
             document.querySelector('#answer4 + label').style.background = 'green'
           }
         }
+        // proceed to the next question
         e.index++
-        console.log('BeforeattemptExhaust', data.players)        
+        // Reset the players attempts
         e.players.playerOne.attempts = 0
         e.players.playerTwo.attempts = 0
-        console.log('attemptExhaust', e.players)
         // Event that fires that brings up the question with the next player's turn
         let x = setInterval(() => {
           let evt = new Event('nextTry')
@@ -108,7 +108,7 @@ class Controller {
   timerTest(e) {
     // function to countdown the timer for each question
     this.correctOrIncorrect = false
-    let timeLeft = 4
+    let timeLeft = 32
     let x = setInterval( () => {
       document.querySelector("#timer").value = --timeLeft;
       if (timeLeft < 0) {
@@ -215,6 +215,8 @@ class Model {
   }
   // The method that occurs when a turn has ended
   turnEnd(e) {
+    // disable the button to prevent it from being clicked again
+    document.querySelector('#confirmBtn').disabled = true
     // if the question was answered correct
     if (e.correct) {
       // determines who's turn it is to answer
@@ -229,7 +231,6 @@ class Model {
       e.players.playerOne.attempts = 0
       e.players.playerTwo.attempts = 0
       // e.index++
-      console.log('Correct Answer!', e.index)
       
     // If the answer was wrong
     } else {
@@ -243,7 +244,6 @@ class Model {
         // Increase the player attempt
         e.players.playerTwo.attempts = 1
       }
-      console.log('Incorrect Answer!', e.index)
     }
     // Event that sends the information into a buffer between here and the next tryEvent
     let evt = new Event('buffer')
@@ -253,7 +253,6 @@ class Model {
     evt.turn = e.turn
     evt.correct = e.correct
     document.dispatchEvent(evt)
-    
   }
   makeApiCall(e) {
     // make the call easier later
@@ -268,7 +267,6 @@ class Model {
     if (setupInfo.difficulty != 'any') {
       url += `&difficulty=${setupInfo.difficulty}`
     }
-    console.log(url)
     let newData = []
     // Fetch the questions based off user input
     fetch(url, options)
@@ -323,24 +321,25 @@ class View {
   }
   showQuestion(e) {
     // variables to shorten the use of it later and to keep the scope of e
-    let question = e.questions
+    let questions = e.questions
     let i = e.index
     let players = e.players
+    
     // Tests whether the question is a true/false or not
-    if (question[i].type == 'boolean') {
+    if (questions[i].type == 'boolean') {
       let htmlString = `<div id="qData">
                         <p>Question: ${i+1}</p>
-                        <progress value="4" min="0" max="4" id="timer"></progress>
+                        <progress value="32" min="0" max="32" id="timer"></progress>
                       </div>
-                      <h1>${question[i].question}</h1>
+                      <h1 id="currentQuestion">${questions[i].question}</h1>
                       <div class="answerChoices">
                         <div>
-                          <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
-                          <label for="answer1">${question[i].answer_array[0]}</label>
+                          <input type="radio" name="answerSelect" id="answer1" value="${questions[i].answer_array[0]}">
+                          <label for="answer1">${questions[i].answer_array[0]}</label>
                         </div>
                         <div>
-                          <input type="radio" name="answerSelect" id="answer2" value="${question[i].answer_array[1]}">
-                          <label for="answer2">${question[i].answer_array[1]}</label>
+                          <input type="radio" name="answerSelect" id="answer2" value="${questions[i].answer_array[1]}">
+                          <label for="answer2">${questions[i].answer_array[1]}</label>
                         </div>
                       </div>
                       <button type="button" id="confirmBtn">Confirm</button>`
@@ -349,30 +348,36 @@ class View {
     } else {
       let htmlString = `<div id="qData">
                         <p>Question: ${i + 1}</p>
-                        <progress value="4" min="0" max="4" id="timer"></progress>
+                        <progress value="32" min="0" max="32" id="timer"></progress>
                       </div>
-                    <h1>${question[i].question}</h1>
+                    <h1 id="currentQuestion">${questions[i].question}</h1>
                     <div class="answerChoices">
                       <div>
-                          <input type="radio" name="answerSelect" id="answer1" value="${question[i].answer_array[0]}">
-                          <label for="answer1">${question[i].answer_array[0]}</label>
+                          <input type="radio" name="answerSelect" id="answer1" value="${questions[i].answer_array[0]}">
+                          <label for="answer1">${questions[i].answer_array[0]}</label>
                       </div>
                       <div>
-                          <input type="radio" name="answerSelect" id="answer2" value="${question[i].answer_array[1]}">
-                          <label for="answer2">${question[i].answer_array[1]}</label>
+                          <input type="radio" name="answerSelect" id="answer2" value="${questions[i].answer_array[1]}">
+                          <label for="answer2">${questions[i].answer_array[1]}</label>
                       </div>
                       <div>
-                          <input type="radio" name="answerSelect" id="answer3" value="${question[i].answer_array[2]}">
-                          <label for="answer3">${question[i].answer_array[2]}</label>
+                          <input type="radio" name="answerSelect" id="answer3" value="${questions[i].answer_array[2]}">
+                          <label for="answer3">${questions[i].answer_array[2]}</label>
                      </div>
                      <div>
-                          <input type="radio" name="answerSelect" id="answer4" value="${question[i].answer_array[3]}">
-                          <label for="answer4">${question[i].answer_array[3]}</label>
+                          <input type="radio" name="answerSelect" id="answer4" value="${questions[i].answer_array[3]}">
+                          <label for="answer4">${questions[i].answer_array[3]}</label>
                      </div>
                     </div>
                       <button type="button" id="confirmBtn">Confirm</button>`
       document.querySelector('#main').innerHTML = htmlString
     }
+    // determine the font size for the question
+    if (questions[i].question.length >= 90) {
+      document.querySelector('h1').style.fontSize = '1.2rem'
+    }
+    // enable the button again for use
+    document.querySelector('#confirmBtn').disabled = false
     // KEEP TRACK OF PLAYER ONE SCORE AND DISPLAY
     if (players.playerOne.numCorrect == 1) {
       players.playerOne.score = 500
@@ -463,35 +468,5 @@ class View {
     evt.players = players
     evt.turn = e.turn
     document.dispatchEvent(evt)
-  }
-  incorrectAnswer(e) {
-    // checks to see if both players had a chance and marks moves on to the next question
-    if (e.players.playerTwo.attempts == 1 && e.players.playerOne.attempts == 1) {
-      e.index++
-      e.players.playerOne.attempts = 0
-      e.players.playerTwo.attempts = 0
-      document.querySelector('#main').innerHTML = `<div id="answerCorrect">
-                                                    <h2>Correct Answer</h2>
-                                                    <p>${e.questions[e.index].correct_answer}</p>
-                                                  </div>`
-    }
-    let x = setInterval(() => {
-      // determines who's turn it is to answer
-      if (e.turn == 0) {
-        e.players.playerOne.attempts = 1
-        e.turn = 1
-      } else {
-        e.players.playerTwo.attempts = 1
-        e.turn = 0
-      }
-      // Event that fires that brings up the question with the next player's turn
-      let evt = new Event('nextTry')
-      evt.questions = e.questions
-      evt.index = e.index
-      evt.players = e.players
-      evt.turn = e.turn
-      document.dispatchEvent(evt)
-      clearInterval(x)
-    }, 4000)
   }
 }
