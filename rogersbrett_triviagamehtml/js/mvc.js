@@ -3,10 +3,6 @@ class Controller {
     this.model = new Model()
     this.view = new View()
     // variables for later use
-    this.oName = document.querySelector('#pOneName')
-    this.tName = document.querySelector('#pTwoName')
-    this.category = document.querySelector('#categoryPicker')
-    this.difficulty = document.querySelector('#difficultyPicker')
     this.playerData = new PlayerData()
     this.pTurn = 0
     this.correctOrIncorrect = false
@@ -19,20 +15,25 @@ class Controller {
     document.addEventListener('timerCheck', this.timerTest.bind(this))
     document.addEventListener('buffer', this.buffer.bind(this))
   }
+  // process some info before goin to the nextTry event
   buffer(e) {
+    // store variables for easier calls later
     let correctAnswer = e.questions[e.index].correct_answer
     let a1 = document.querySelector('#answer1')
     let a2 = document.querySelector('#answer2')
     let a3 = document.querySelector('#answer3')
     let a4 = document.querySelector('#answer4')
 
+    // If they answered correctly
     if (e.correct) {
+      // If the question is a boolean
       if (e.questions[e.index].type == 'boolean') {
         if (a1 && a1.value == correctAnswer) {
           document.querySelector('#answer1 + label').style.background = 'green'
         } else if (a2 && a2.value == correctAnswer) {
           document.querySelector('#answer2 + label').style.background = 'green'
         }
+      // If the question is not a boolean
       } else {
         if (a1 && a1.value == correctAnswer) {
           document.querySelector('#answer1 + label').style.background = 'orange'
@@ -44,6 +45,7 @@ class Controller {
           document.querySelector('#answer4 + label').style.background = 'orange'
         }
       }
+      // increase the index to the next question
       e.index++
       // Event that fires that brings up the question with the next player's turn
       let x = setInterval(() => {
@@ -56,13 +58,16 @@ class Controller {
         clearInterval(x)
       }, 4000)
     } else {
+      // If the player exhausts their question attempts
       if (e.players.playerOne.attempts == 1 && e.players.playerTwo.attempts == 1) {
+        // if the question is a boolean
         if (e.questions[e.index] == 'boolean') {
           if (a1 && a1.value == correctAnswer) {
             document.querySelector('#answer1 + label').style.background = 'green'
           } else if (a2 && a2.value == correctAnswer) {
             document.querySelector('#answer2 + label').style.background = 'green'
           }
+        // If the question is not a boolean
         } else {
           if (a1 && a1.value == correctAnswer) {
             document.querySelector('#answer1 + label').style.background = 'green'
@@ -75,8 +80,10 @@ class Controller {
           }
         }
         e.index++
-        e.players.playerOne.attempts == 0
-        e.players.playerTwo.attempts == 0
+        console.log('BeforeattemptExhaust', data.players)        
+        e.players.playerOne.attempts = 0
+        e.players.playerTwo.attempts = 0
+        console.log('attemptExhaust', e.players)
         // Event that fires that brings up the question with the next player's turn
         let x = setInterval(() => {
           let evt = new Event('nextTry')
@@ -87,6 +94,7 @@ class Controller {
           document.dispatchEvent(evt)
           clearInterval(x)
         }, 4000)
+      // If the players still have an attempt left
       } else {
         let evt = new Event('nextTry')
         evt.questions = e.questions
@@ -135,15 +143,11 @@ class Controller {
   captureForm(e) {
     e.preventDefault()
     let index = 0
-    // play the background audio
-    // document.querySelector('#myAudio').play()
-    // document.querySelector('#myAudio').volume = 0.4
-    // document.querySelector('#myAudio').loop = true
     // capture all the values from the inputs and populate the data object
-    this.playerData.oName = this.oName.value
-    this.playerData.tName = this.tName.value
-    this.playerData.category = this.category.value
-    this.playerData.difficulty = this.difficulty.value
+    this.playerData.oName = document.querySelector('#pOneName').value
+    this.playerData.tName = document.querySelector('#pTwoName').value
+    this.playerData.category = document.querySelector('#categoryPicker').value
+    this.playerData.difficulty = document.querySelector('#difficultyPicker').value
     
     // Fire the event upon grabbing all the data
     let evt = new Event('dataGet')
@@ -209,7 +213,9 @@ class Model {
     document.addEventListener('dataGet', this.makeApiCall.bind(this))
     document.addEventListener('turnOver', this.turnEnd.bind(this))
   }
+  // The method that occurs when a turn has ended
   turnEnd(e) {
+    // if the question was answered correct
     if (e.correct) {
       // determines who's turn it is to answer
       if (e.turn == 0) {
@@ -219,24 +225,27 @@ class Model {
         e.turn = 0
         e.players.playerTwo.numCorrect++
       }
+      // Reset the player attempts
       e.players.playerOne.attempts = 0
       e.players.playerTwo.attempts = 0
       // e.index++
       console.log('Correct Answer!', e.index)
       
-      
+    // If the answer was wrong
     } else {
       // determines who's turn it is to answer
       if (e.turn == 0) {
         e.turn = 1
+        // Increase the player attempt
         e.players.playerOne.attempts = 1
       } else {
         e.turn = 0
+        // Increase the player attempt
         e.players.playerTwo.attempts = 1
       }
       console.log('Incorrect Answer!', e.index)
     }
-    // Event that fires that brings up the question with the next player's turn
+    // Event that sends the information into a buffer between here and the next tryEvent
     let evt = new Event('buffer')
     evt.questions = e.questions
     evt.index = e.index
