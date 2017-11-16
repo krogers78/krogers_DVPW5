@@ -58,8 +58,8 @@ h1 {
     color: #dde; }
   #main input[type=text], #main select {
     background-color: #ddd;
-    border: none;
-    padding-left: 0.5rem;
+    border-color: #ddd;
+    padding-left: 0.3rem;
     display: block;
     width: 100%;
     margin: 0.5rem 0;
@@ -143,6 +143,11 @@ progress {
   margin: 0 auto;
   display: flex;
   justify-content: center; }
+
+.error {
+  font-size: 0.8rem;
+  padding: 0;
+  margin: 0; }
 
 .tenk {
   width: 100%; }

@@ -56,7 +56,7 @@ class Controller {
         evt.turn = e.turn
         document.dispatchEvent(evt)
         clearInterval(x)
-      }, 4000)
+      }, 3000)
     } else {
       // If the player exhausts their question attempts
       if (e.players.playerOne.attempts == 1 && e.players.playerTwo.attempts == 1) {
@@ -93,15 +93,30 @@ class Controller {
           evt.turn = e.turn
           document.dispatchEvent(evt)
           clearInterval(x)
-        }, 4000)
+        }, 3000)
       // If the players still have an attempt left
       } else {
-        let evt = new Event('nextTry')
-        evt.questions = e.questions
-        evt.index = e.index
-        evt.players = e.players
-        evt.turn = e.turn
-        document.dispatchEvent(evt)
+        // display quickly that they got the wrong answer
+        if (a1.checked) {
+          document.querySelector('#answer1 + label').style.background = '#FF0002'          
+        } else if (a2.checked) {
+          document.querySelector('#answer2 + label').style.background = '#FF0002'          
+        } else if (a3.checked) {
+          document.querySelector('#answer3 + label').style.background = '#FF0002'          
+        } else if (a4.checked) {
+          document.querySelector('#answer4 + label').style.background = '#FF0002'          
+        }
+        let y = setInterval(() => {
+          // reset all the answer colors back to the original color
+          document.querySelector('.answerChoices input[type=radio] + label').style.background = 'rgb(0, 75, 122)'
+          let evt = new Event('nextTry')
+          evt.questions = e.questions
+          evt.index = e.index
+          evt.players = e.players
+          evt.turn = e.turn
+          document.dispatchEvent(evt)
+          clearInterval(y)
+        }, 750)
       }
     }
   }
@@ -143,18 +158,31 @@ class Controller {
   captureForm(e) {
     e.preventDefault()
     let index = 0
-    // capture all the values from the inputs and populate the data object
-    this.playerData.oName = document.querySelector('#pOneName').value
-    this.playerData.tName = document.querySelector('#pTwoName').value
-    this.playerData.category = document.querySelector('#categoryPicker').value
-    this.playerData.difficulty = document.querySelector('#difficultyPicker').value
-    
-    // Fire the event upon grabbing all the data
-    let evt = new Event('dataGet')
-    evt.data = this.playerData
-    evt.index = index
-    evt.turn = this.pTurn
-    document.dispatchEvent(evt)
+    let err = []
+    if (document.querySelector('#pOneName').value == '') {
+      document.querySelector('#pOneName').insertAdjacentHTML('afterEnd', '<p class="error">Please enter a name!</p>')
+      err.push('pOne')
+    }
+    if (document.querySelector('#pTwoName').value == '') {
+      document.querySelector('#pTwoName').insertAdjacentHTML('afterEnd', '<p class="error">Please enter a name!</p>')
+      err.push('ptwo')
+    }
+    console.log(err)
+  console.log(err.length)
+    if (err.length == 0) {
+      // capture all the values from the inputs and populate the data object
+      this.playerData.oName = document.querySelector('#pOneName').value
+      this.playerData.tName = document.querySelector('#pTwoName').value
+      this.playerData.category = document.querySelector('#categoryPicker').value
+      this.playerData.difficulty = document.querySelector('#difficultyPicker').value
+      
+      // Fire the event upon grabbing all the data
+      let evt = new Event('dataGet')
+      evt.data = this.playerData
+      evt.index = index
+      evt.turn = this.pTurn
+      document.dispatchEvent(evt)
+    }
   }
   // push the question to show in the view
   showQuestion(e) {
