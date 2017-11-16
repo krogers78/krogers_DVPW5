@@ -1,19 +1,74 @@
 /* Import font */
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
-body {
-  background: url("/assets/img/bg.png") repeat 0 0;
-  animation: 75s linear 0s normal none infinite back_animate;
-  animation-timing-function: ease-in-out;
-  padding: 2rem;
-  font-family: 'Montserrat', sans-serif; }
+/* CLASSES */
+.answerChoices {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center; }
+  .answerChoices div {
+    width: 48%;
+    margin: 1rem 0; }
+  .answerChoices input[type=radio] + label {
+    background-color: #004b7a;
+    border: none;
+    display: inline-block;
+    border-radius: 0.5rem;
+    width: 100%;
+    text-align: center;
+    height: 3.5rem;
+    padding-top: 2.5rem;
+    font-size: 0.8rem !important;
+    cursor: pointer;
+    box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.25); }
+  .answerChoices input[type=radio]:checked + label {
+    background: #002d48; }
 
-input[type=radio] {
-  -webkit-appearance: none; }
+.wrapper {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center; }
 
-h1 {
-  font-size: 1.5rem;
-  text-align: center;
-  padding: 3rem 0; }
+.error {
+  font-size: 0.8rem;
+  padding: 0;
+  margin: 0; }
+
+.tenk {
+  width: 100%; }
+
+.eightk {
+  width: 90%; }
+
+.sevenk {
+  width: 80%; }
+
+.sixk {
+  width: 70%; }
+
+.fivek {
+  width: 60%; }
+
+.fourk {
+  width: 50%; }
+
+.threek {
+  width: 40%; }
+
+.twok {
+  width: 30%; }
+
+.onek {
+  width: 20%; }
+
+.pointfive {
+  width: 15%; }
+
+.nameAnimate {
+  animation: 2s ease-out 0s normal none name; }
 
 /* BY ID */
 /* THE SECTION FOR THE POINT SCALES */
@@ -101,6 +156,21 @@ h1 {
     padding: 0.5rem;
     text-decoration: none; }
 
+body {
+  background: url("/assets/img/bg.png") repeat 0 0;
+  animation: 75s linear 0s normal none infinite back_animate;
+  animation-timing-function: ease-in-out;
+  padding: 2rem;
+  font-family: 'Montserrat', sans-serif; }
+
+input[type=radio] {
+  -webkit-appearance: none; }
+
+h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 3rem 0; }
+
 progress {
   -webkit-appearance: none; }
 
@@ -111,76 +181,6 @@ progress {
   display: flex;
   align-items: center;
   justify-content: space-around; }
-
-/* CLASSES */
-.answerChoices {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center; }
-  .answerChoices div {
-    width: 48%;
-    margin: 1rem 0; }
-  .answerChoices input[type=radio] + label {
-    background-color: #004b7a;
-    border: none;
-    display: inline-block;
-    border-radius: 0.5rem;
-    width: 100%;
-    text-align: center;
-    height: 3.5rem;
-    padding-top: 2.5rem;
-    font-size: 0.8rem !important;
-    cursor: pointer;
-    box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.25); }
-  .answerChoices input[type=radio]:checked + label {
-    background: #002d48; }
-
-.wrapper {
-  width: 95%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center; }
-
-.error {
-  font-size: 0.8rem;
-  padding: 0;
-  margin: 0; }
-
-.tenk {
-  width: 100%; }
-
-.eightk {
-  width: 90%; }
-
-.sevenk {
-  width: 80%; }
-
-.sixk {
-  width: 70%; }
-
-.fivek {
-  width: 60%; }
-
-.fourk {
-  width: 50%; }
-
-.threek {
-  width: 40%; }
-
-.twok {
-  width: 30%; }
-
-.onek {
-  width: 20%; }
-
-.pointfive {
-  width: 15%; }
-
-.nameAnimate {
-  animation: 2s ease-out 0s normal none name; }
 
 /* KEYFRAMES  */
 @keyframes back_animate {
