@@ -140,11 +140,11 @@ class View {
 
     // Let the players know who's turn it is
     if (e.turn == 0) {
-      oneName.className = 'nameAnimate'
-      oneName.addEventListener('animationend', () => oneName.classList.remove('nameAnimate'))
+      oneName.classList.add('yourTurn')
+      twoName.classList.remove('yourTurn')
     } else {
-      twoName.className = 'nameAnimate'
-      twoName.addEventListener('animationend', () => twoName.classList.remove('nameAnimate'))
+      twoName.classList.add('yourTurn')
+      oneName.classList.remove('yourTurn')
     }
     // Event fires to return the code to the function with the timer
     let evt = new Event('timerCheck')

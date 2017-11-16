@@ -82,6 +82,9 @@ class Model {
             attempts: 0
           }
         }
+        // Set the names of the players on the page
+        document.querySelector('#oneName').innerHTML = playerInfo.playerOne.name
+        document.querySelector('#twoName').innerHTML = playerInfo.playerTwo.name
         anime({
           targets: '#main',
           scale: [
