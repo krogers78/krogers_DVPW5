@@ -35,8 +35,8 @@ class Model {
         e.players.playerTwo.attempts = 1
       }
     }
-    // Event that sends the information into a buffer between here and the next tryEvent
-    let evt = new Event('buffer')
+    // Event that sends the information into a method to display the score and move on from there
+    let evt = new Event('showScore')
     evt.questions = e.questions
     evt.index = e.index
     evt.players = e.players

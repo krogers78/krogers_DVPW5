@@ -71,13 +71,13 @@
   animation: 2s ease-out 0s normal none name; }
 
 .yourTurn {
-  box-shadow: 0.2rem 0.2rem 0.2rem pink;
-  background: #37191f;
-  color: #ddd;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(255, 255, 255, 0.5);
+  background: #7b2846;
+  color: #ffe;
   width: auto;
   border-radius: 0.5rem;
   text-align: center;
-  margin: 0 auto; }
+  margin-top: 1rem; }
 
 /* BY ID */
 /* THE SECTION FOR THE POINT SCALES */

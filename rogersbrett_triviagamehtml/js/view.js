@@ -2,6 +2,7 @@ class View {
   constructor() {
     document.addEventListener('qShow', this.showQuestion.bind(this))
     document.addEventListener('nextTry', this.showQuestion.bind(this))
+    document.addEventListener('showScore', this.showScore.bind(this))
   }
   // displays the question on the page
   showQuestion(e) {
@@ -63,6 +64,35 @@ class View {
     }
     // enable the button again for use
     document.querySelector('#confirmBtn').disabled = false
+  
+    // store html elements in variables
+    let oneName = document.querySelector('#oneName')
+    let twoName = document.querySelector('#twoName')
+    // Set the names of the players on the page
+    oneName.innerHTML = players.playerOne.name
+    twoName.innerHTML = players.playerTwo.name
+
+    // Let the players know who's turn it is
+    if (e.turn == 0) {
+      oneName.classList.add('yourTurn')
+      Utils.itemBounce(oneName)
+      twoName.classList.remove('yourTurn')
+    } else {
+      twoName.classList.add('yourTurn')
+      Utils.itemBounce(twoName)      
+      oneName.classList.remove('yourTurn')
+    }
+    // Event fires to return the code to the function with the timer
+    let evt = new Event('timerCheck')
+    evt.questions = e.questions
+    evt.index = i
+    evt.players = players
+    evt.turn = e.turn
+    document.dispatchEvent(evt)
+  }
+  // displays the score for the players
+  showScore(e) {
+    let players = e.players
     // KEEP TRACK OF PLAYER ONE SCORE AND DISPLAY
     if (players.playerOne.numCorrect == 1) {
       players.playerOne.score = 500
@@ -131,27 +161,13 @@ class View {
       document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
                                                   <p id="playAgain"><a href="/">Play Again</a></p>`
     }
-    // store html elements in variables
-    let oneName = document.querySelector('#oneName')
-    let twoName = document.querySelector('#twoName')
-    // Set the names of the players on the page
-    oneName.innerHTML = players.playerOne.name
-    twoName.innerHTML = players.playerTwo.name
-
-    // Let the players know who's turn it is
-    if (e.turn == 0) {
-      oneName.classList.add('yourTurn')
-      twoName.classList.remove('yourTurn')
-    } else {
-      twoName.classList.add('yourTurn')
-      oneName.classList.remove('yourTurn')
-    }
-    // Event fires to return the code to the function with the timer
-    let evt = new Event('timerCheck')
+    // Event that sends the information into a buffer between here and the next tryEvent
+    let evt = new Event('buffer')
     evt.questions = e.questions
-    evt.index = i
-    evt.players = players
+    evt.index = e.index
+    evt.players = e.players
     evt.turn = e.turn
+    evt.correct = e.correct
     document.dispatchEvent(evt)
   }
 }

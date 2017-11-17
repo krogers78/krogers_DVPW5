@@ -53,11 +53,11 @@
   animation: 2s ease-out 0s normal none name;  
 }
 .yourTurn {
-  box-shadow: 0.2rem 0.2rem 0.2rem pink;
-  background: rgb(55, 25, 31);
-  color: #ddd;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(255, 255, 255, 0.5);
+  background: rgb(123, 40, 70);
+  color: #ffe;
   width: auto;
   border-radius: 0.5rem;
   text-align: center;
-  margin: 0 auto;
+  margin-top: 1rem;
 }

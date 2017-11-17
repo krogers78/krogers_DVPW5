@@ -26,4 +26,14 @@ class Utils {
       })
     }
   }
+  static itemBounce(id) {
+    anime({
+      targets: id,
+      scale: [
+        { value: 0.2, duration: 100 },
+        { value: 1, duration: 800 }
+      ],
+      duration: 1000
+    })
+  }
 }
