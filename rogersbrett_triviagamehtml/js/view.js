@@ -3,6 +3,7 @@ class View {
     document.addEventListener('qShow', this.showQuestion.bind(this))
     document.addEventListener('nextTry', this.showQuestion.bind(this))
     document.addEventListener('showScore', this.showScore.bind(this))
+    document.addEventListener('newGame', this.newGame.bind(this))
   }
   // displays the question on the page
   showQuestion(e) {
@@ -125,7 +126,7 @@ class View {
       players.playerOne.score = 10000
       Utils.animateScore('pOneScores', 'tenk')
       document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
-                                                  <p id="playAgain"><a href="/">Play Again</a></p>`
+                                                  <p id="playAgain">Play Again></p>`
     }
     // KEEP TRACK OF PLAYER TWO SCORE AND DISPLAY
     if (players.playerTwo.numCorrect == 1) {
@@ -159,15 +160,91 @@ class View {
       players.playerTwo.score = 10000
       Utils.animateScore('pTwoScores', 'tenk')
       document.querySelector('#main').innerHTML = `<p id="winner">${players.playerOne.name} wins!</p>
-                                                  <p id="playAgain"><a href="/">Play Again</a></p>`
+                                                  <p id="playAgain">Play Again</p>`
+      
     }
-    // Event that sends the information into a buffer between here and the next tryEvent
-    let evt = new Event('buffer')
-    evt.questions = e.questions
-    evt.index = e.index
-    evt.players = e.players
-    evt.turn = e.turn
-    evt.correct = e.correct
-    document.dispatchEvent(evt)
+    if (players.playerOne.numCorrect == 10 || players.playerTwo.numCorrect == 10) {
+      let evt = new Event('gameOver')
+      evt.players = players
+      document.dispatchEvent(evt)
+    } else {
+          // Event that sends the information into a buffer between here and the next tryEvent
+          let evt = new Event('buffer')
+          evt.questions = e.questions
+          evt.index = e.index
+          evt.players = e.players
+          evt.turn = e.turn
+          evt.correct = e.correct
+          document.dispatchEvent(evt)
+    }
+  }
+  // method to begin a new game
+  newGame(e) {
+    console.log('gameNew', e.players)
+    // repopulate the view with the form
+    document.querySelector('#main').innerHTML = `<form id="gameSetup">
+        <p>
+          <label>
+            Player One:
+            <input type="text" id="pOneName" required value="${e.players.playerOne.name}">
+          </label>
+        </p>
+        <p>
+          <label>
+            Player Two:
+            <input type="text" id="pTwoName" required value="${e.players.playerTwo.name}">
+          </label>
+        </p>
+        <p>
+          <label>
+            Category
+            <select id="categoryPicker">
+              <option value="any">Surprise Me</option>
+              <option value="9">General Knowledge</option>
+              <option value="10">Entertainment: Books</option>
+              <option value="11">Entertainment: Film</option>
+              <option value="12">Entertainment: Music</option>
+              <option value="13">Entertainment: Musicals &amp; Theatres</option>
+              <option value="14">Entertainment: Television</option>
+              <option value="15">Entertainment: Video Games</option>
+              <option value="16">Entertainment: Board Games</option>
+              <option value="17">Science &amp; Nature</option>
+              <option value="18">Science: Computers</option>
+              <option value="19">Science: Mathematics</option>
+              <option value="20">Mythology</option>
+              <option value="21">Sports</option>
+              <option value="22">Geography</option>
+              <option value="23">History</option>
+              <option value="24">Politics</option>
+              <option value="25">Art</option>
+              <option value="26">Celebrities</option>
+              <option value="27">Animals</option>
+              <option value="28">Vehicles</option>
+              <option value="29">Entertainment: Comics</option>
+              <option value="30">Science: Gadgets</option>
+              <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+              <option value="32">Entertainment: Cartoon &amp; Animations</option>
+            </select>
+          </label>
+         </p>
+        <p>
+          <label>
+            Select a Difficulty
+            <select id="difficultyPicker">
+              <option value="any">Any Difficulty</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+         </p>
+        <button type="submit" id="submitBtn">Start Game</button>
+      </form>`
+    // On submit fire an event to start the game
+    document.querySelector('form').addEventListener('submit', e => {
+      e.preventDefault()
+      let evt = new Event('startGameAnew')
+      document.dispatchEvent(evt)
+    })
   }
 }

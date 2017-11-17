@@ -7,13 +7,16 @@ class Controller {
     this.pTurn = 0
     this.correctOrIncorrect = false
 
-    // Fires upon cliking the submit button for questions
+    // Fires upon clicking the submit button for questions
     document.querySelector('#submitBtn').addEventListener('click', this.captureForm.bind(this))
-    // Fires after the api call was successful
+    // All the event listeners to make the program function as intended
     document.addEventListener('apiGet', this.showQuestion.bind(this))
     document.addEventListener('confirmClicked', this.getChoice.bind(this))
     document.addEventListener('timerCheck', this.timerTest.bind(this))
     document.addEventListener('buffer', this.buffer.bind(this))
+    document.addEventListener('gameOver', this.gameOver.bind(this))
+    document.addEventListener('gameOver', this.gameOver.bind(this))
+    document.addEventListener('startGameAnew', this.captureForm.bind(this))
   }
   // process some info before goin to the nextTry event
   buffer(e) {
@@ -203,6 +206,7 @@ class Controller {
     evt.turn = e.turn
     document.dispatchEvent(evt)
   }
+  // capture the player answer choice
   getChoice(e) {
     e.preventDefault()
     // Variables to keep the scope of e to the event
@@ -243,5 +247,44 @@ class Controller {
       evt.turn = data.turn
       evt.correct = this.correctOrIncorrect
       document.dispatchEvent(evt)
+  }
+  // method that listens for the click if they want to play a new game
+  gameOver(e) {
+    let players = e.players
+    // reset the player information
+    players.playerOne.numCorrect = 0
+    players.playerOne.score = 0
+    players.playerTwo.numCorrect = 0
+    players.playerTwo.score = 0
+    // Add an event listener for the play again click
+    document.querySelector('#playAgain').addEventListener('click', () => {
+      // 
+      //  I KNOW THIS IS RIDICULOUS, BUT THROUGH ALL KINDS OF TRIAL AND ERROR
+      //  THIS IS THE ONLY WAY MADE ALL THE SCORES HIDDEN AGAIN :/
+      // 
+      document.querySelector('#pOneScores .pointfive').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .onek').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .twok').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .threek').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .fourk').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .fivek').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .sixk').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .sevenk').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .eightk').style.visibility = 'hidden'
+      document.querySelector('#pOneScores .tenk').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .pointfive').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .onek').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .twok').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .threek').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .fourk').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .fivek').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .sixk').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .sevenk').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .eightk').style.visibility = 'hidden'
+      document.querySelector('#pTwoScores .tenk').style.visibility = 'hidden'
+      let evt = new Event('newGame')
+      evt.players = players
+      document.dispatchEvent(evt)
+    })
   }
 }
