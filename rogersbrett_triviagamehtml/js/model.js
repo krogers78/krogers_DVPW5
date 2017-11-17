@@ -71,13 +71,13 @@ class Model {
         let playerInfo = {
           playerOne: {
             name: setupInfo.oName,
-            numCorrect: 0,
+            numCorrect: 9,
             score: 0,
             attempts: 0
           },
           playerTwo: {
             name: setupInfo.tName,
-            numCorrect: 0,
+            numCorrect: 9,
             score: 0,
             attempts: 0
           }
