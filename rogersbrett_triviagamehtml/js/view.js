@@ -180,7 +180,6 @@ class View {
   }
   // method to begin a new game
   newGame(e) {
-    console.log('gameNew', e.players)
     // repopulate the view with the form
     document.querySelector('#main').innerHTML = `<form id="gameSetup">
         <p>
