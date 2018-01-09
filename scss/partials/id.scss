@@ -1,0 +1,99 @@
+/* BY ID */
+/* THE SECTION FOR THE POINT SCALES */
+#pOneScores, #pTwoScores {
+  padding-top: 5rem;
+  width: 80%;
+  p {
+    border: 0.04rem solid #333;
+    padding: 1rem 0;
+    text-align: center;
+    border-radius: 0.25rem;
+    background-color: #3BB44A;
+    visibility: hidden;
+  }
+  h3 {
+    font-weight: bold;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+  }
+}
+#pTwoScores {
+  p {
+    margin: auto 0 auto auto;
+    box-shadow: -0.4rem 0.4rem 0.4rem rgba(0,0,0,0.25);          
+  }
+}
+#pOneScores {
+  p {
+    box-shadow: 0.4rem 0.4rem 0.4rem rgba(0,0,0,0.25);          
+  }
+}
+#main {
+  width: 100%;
+  background-color: #BE2726;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(219, 44, 44);
+  margin: 5rem;
+  padding: 1rem;
+  box-shadow: 0.4rem 0.4rem 0.4rem rgba(0,0,0,0.25);    
+  form {
+    padding: 2rem;
+  }
+  p {
+    padding: 1rem 0;
+  }
+  label {
+    font-size: 1.2rem;
+    color: #dde;
+  }
+  /* INPUTS ON THE FIRST VIEW */
+  input[type=text], select {
+    background-color: #ddd;
+    border-color: #ddd;
+    padding-left: 0.3rem;
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+    border-radius: 0.2rem;    
+    box-shadow: 0.4rem 0.4rem 0.4rem rgba(0,0,0,0.25);  
+  }
+  input[type=text] {
+    height: 2.2rem;
+  }
+  select {
+    height: 2.5rem;
+    padding: 0 0 0 0.5rem;
+    cursor: pointer;
+  }
+}
+/* STYLE THE BUTTONS */
+#submitBtn, #confirmBtn {
+  width: 100%;
+  height: 3.5rem;
+  cursor:pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  background-color: #d0ca0b;
+  border-color: #FDFB0D;
+  border-radius: 0.2rem;
+  box-shadow: 0.4rem 0.4rem 0.4rem rgba(0,0,0,0.25);
+}
+/* TEXT AFTER GAME IS WON */
+#winner {
+  margin-top: 8.5rem;  
+  font-size: 2rem;
+  text-align: center;
+}
+#playAgain {
+  margin: 0 auto;
+  text-align: center;
+  background: orange;
+  width: 10rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  a {
+    padding: 0.5rem;
+    text-decoration: none;
+  }
+}

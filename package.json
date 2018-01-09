@@ -1,0 +1,27 @@
+{
+  "name": "marvelsearchapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krogers78/marvelSearchApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krogers78/marvelSearchApp/issues"
+  },
+  "homepage": "https://github.com/krogers78/marvelSearchApp#readme",
+  "description": "",
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  },
+  "dependencies": {
+    "pokeapi-js-wrapper": "^1.0.2"
+  }
+}

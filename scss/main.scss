@@ -1,0 +1,49 @@
+/* Import font */
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+// Import scss files
+@import './partials/classes';
+@import './partials/id';
+// THE CSS
+body {
+  background: url('/assets/img/bg.png') repeat 0 0;
+  animation: 75s linear 0s normal none infinite back_animate;
+  animation-timing-function: ease-in-out;
+  padding: 2rem;
+  // font-family: 'Bangla MN';
+  font-family: 'Montserrat', sans-serif;
+}
+input[type=radio] {
+  -webkit-appearance: none;
+}
+h1 {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 3rem 0;
+}
+progress {
+  -webkit-appearance: none;
+}
+::-webkit-progress-value {
+  background-color: red;
+}
+#qData {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+ /* KEYFRAMES  */
+@keyframes back_animate {
+  0% { background-position: 0 0; }
+	25% { background-position: 0 500px; }  
+  50% { background-position: 500px 0; }
+  75% { background-position: 0 -500px; }
+	100% { background-position: -500 0; }
+}
+@keyframes name {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(80px) scale(2); }
+  75% { transform: translateX(-80px) scale(1.5); }
+  100% { transform: translateX(0px); }
+}
+
