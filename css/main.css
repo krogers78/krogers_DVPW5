@@ -166,7 +166,7 @@
     text-decoration: none; }
 
 body {
-  background: url("/assets/img/bg.png") repeat 0 0;
+  background: url("../assets/img/bg.png") repeat 0 0;
   animation: 75s linear 0s normal none infinite back_animate;
   animation-timing-function: ease-in-out;
   padding: 2rem;

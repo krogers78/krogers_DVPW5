@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>That Trivia Game</title>
-  <script src="/js/do.js" defer></script>
-  <script src="/js/utils.js" defer></script>
-  <script src="/js/anime.min.js" defer></script>
-  <script src="/js/controller.js" defer></script>
-  <script src="/js/model.js" defer></script>
-  <script src="/js/view.js" defer></script>
-  <script src="/js/main.js" defer></script>
-  <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="/css/main.css">
+  <script src="js/do.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/anime.min.js" defer></script>
+  <script src="js/controller.js" defer></script>
+  <script src="js/model.js" defer></script>
+  <script src="js/view.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
   <div class="wrapper">
     <!-- <section id="miscContent"></section> -->
@@ -31,12 +33,17 @@
     <section id="main">
       <form id="gameSetup">
         <p>
-          <label>Player One: <input type="text" id="pOneName" required></label>
+          <label>Player One:
+            <input type="text" id="pOneName" required>
+          </label>
         </p>
         <p>
-          <label>Player Two: <input type="text" id="pTwoName" required></label>
+          <label>Player Two:
+            <input type="text" id="pTwoName" required>
+          </label>
         </p>
-        <p><label>Category
+        <p>
+          <label>Category
             <select id="categoryPicker">
               <option value="any">Surprise Me</option>
               <option value="9">General Knowledge</option>
@@ -65,7 +72,7 @@
               <option value="32">Entertainment: Cartoon &amp; Animations</option>
             </select>
           </label>
-         </p>
+        </p>
         <p>
           <label>
             Select a Difficulty
@@ -76,7 +83,7 @@
               <option value="hard">Hard</option>
             </select>
           </label>
-         </p>
+        </p>
         <button type="submit" id="submitBtn">Start Game</button>
       </form>
     </section>
@@ -96,4 +103,5 @@
     <section id="scores"></section>
   </div>
 </body>
+
 </html>
